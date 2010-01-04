@@ -1,0 +1,5 @@
+#!/bin/bash
+cat *.dat | sort -nk1 | uniq > everything
+head -n1 everything > best
+tail -n1 everything > worst
+grep "abc def ghi jkl mno pqrs tuv wxyz" everything > current
