@@ -3,20 +3,19 @@
 \usepackage{amsmath}
 \usepackage{url}
 
-\title{Optimizing Small Keyboard Layout to Minimize ``T9onyms''}
-\author{P. Boothe}
-
 \newcommand{\newword}[1]{{\bf #1}}
-\newcommand{\NP}{\ensuremath{\mathcal{NP}}}
 \newtheorem{theorem}{Theorem}
+\newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+
+\title{Using Cell Phone Keyboards is (\NP) Hard}
+\author{P. Boothe}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
 Sending text messages on cell phones which only contain the keys 0-9 and \#
-and * can be a painful experience.  In order to make it easier, phone
-manufactureres have designed predictive typing schemes.  In this paper we
+and * can be a painful experience.  In this paper we
 consider multiple algorithms to design an optimal map of cell phone keys to
 letters so that, for a given dictionary of words with associated frequencies,
 the expected number of characters typed is minimized.  We end by describing the
