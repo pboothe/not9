@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{url}
+
+\newcommand{\newword}[1]{{\bf #1}}
+\newtheorem{problem}{Problem}
+\newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+
+\title{Using Cell Phone Keyboards is (\NP) Hard}
+\author{P. Boothe}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Sending text messages on cell phones which only contain the keys 0-9 and
+\# and * can be a painful experience.  We consider the problem of
+designing an optimal mapping of numbers to sets of letters to act as an
+alternative to the standard $\{2\to\{abc\}, 3\to\{def\}\ldots\}$.  Our
+overall goal is to minimize the number of keys that must be typed.  We
+prove that the problem is \NP hard, but describe several mappings which
+improve the standard one.
+\end{abstract}
+
+Typing on a keyboard which has fewer keys than there are letter in
+the alphabet can be a painful task.  There are a plethora of 
+input schemes which attempt to make this task easier, but the one thing
+they all have in common is that all of these input methods use the
+standard mapping of numeric keys to alphabetic numbers of $\{2\to\{abc\},
+         3\to\{def\}, 4\to\{ghi\}, 5\to\{jkl\}, 6\to\{mno\}, 7\to\{pqrs\},
+         8\to\{tuv\}, 9\to\{wxyz\}\}$.  They use this mapping for historic
+reasons, but, if we don't mind breaking some ``legacy'' applications of the
+phone system such as ``1-800-FLOWERS'' and the like, then we might try
+rearranging the numbers on the keys to make messages easier to type.
+
+Before we get any farther, let us sketch the basic problem that we will keep
+revising and revisiting throughout this paper.
+\begin{problem}[{\sc MinimumKeystrokes}]~\\
+{\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
+n)$, a number of keys $k$, an input method $IN$, and a set of
+tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
+and the words are made up of solely of elements of $A$.  We will
+treat $IN$ as a function which, given a partition of $A$ and a word
+$w$, returns how many keystrokes are required to type $w$.~\\
+        ~\\
+{\sc Question}: What is the best partition of $A$ into $k$ sets, such that the
+total number of keystrokes to type every word in $W$ its associated frequency
+times is minimized?  Equivalently, what is the partition of $P$ of $A$ that
+will minimize
+$$\sum_{(w,f)\in W} f*IN(w,P)$$
+\end{problem}
+
+Over the course of this paper we consider three different real-world
+schemes for $IN$ (basic typing, T9, and predictive T9), and for each
+variant that is proven \NP-hard, we consider the restriction on $P$ that
+requires that we keep the alphabet in alphabetical order.  In all cases
+where it is computationally feasible, we provide results for the case of
+the English language, on 8-key keyboards, using the British National
+Corpus\cite{bnc}.  
+
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
+\end{document}
