@@ -1,16 +1,19 @@
-\documentclass{article}
+\documentclass[runningheads]{llncs}
 
-\usepackage{amsmath,amsthm}
+\usepackage{amsmath}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{salgorithm}
 
 \newcommand{\newword}[1]{{\bf #1}}
-\newtheorem{problem}{Problem}
-\newtheorem{theorem}{Theorem}
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+\spnewtheorem{prob}[theorem]{Problem}{\bfseries}{\itshape}
 
 \title{Using Cell Phone Keyboards is (\NP) Hard}
-\author{P. Boothe}
+\author{Peter Boothe}
+\institute{Manhattan College\\
+\email{peter.boothe@manhattan.edu}
+}
 
 \begin{document}
 \maketitle
@@ -41,7 +44,7 @@ NP-hard, unfortunately.
 
 Before we get any farther, let us sketch the basic problem that we will keep
 revising and revisiting throughout this paper.
-\begin{problem}[{\sc MinimumKeystrokes}]~\\
+\begin{prob}[{\sc MinimumKeystrokes}]~\\
 {\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
 n)$, a number of keys $k$, an input method $IN$, and a set of
 tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
@@ -55,7 +58,7 @@ times is minimized?  Equivalently, what is the partition of $P$ of $A$ ($|P| = k
 will minimize
 $$\sum_{(w,f)\in W} f*IN(w,P)$$
 \label{probtemplate}
-\end{problem}
+\end{prob}
 
 
 Over the course of this paper we consider three different real-world
@@ -110,7 +113,7 @@ effort to find out how low this can go, we define the problem {\sc
 BasicCellPhoneTyping} based on the template problem on
 page~\pageref{probtemplate}.
 
-\begin{problem}[{\sc BasicCellPhoneTyping}]~\\
+\begin{prob}[{\sc BasicCellPhoneTyping}]~\\
 {\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
 n)$, a number of keys $k$, and a set of
 tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
@@ -125,10 +128,33 @@ example, in the key $2\to\{abc\}$, $a$ requires one keystroke and $c$ requires
 letter $a$ with partition $P$ as $IN_P(a)$, then we want to find the $P$ that
 minimizes $$\sum_{(w,f) \in W}\sum_{c\in w} IN_P(c) * f$$
 \label{bcpt}
-\end{problem}
+\end{prob}
 
-Unlike almost every other problem dealing with key assignment, we can construct
-an efficient algorithm for this problem.  We can construct a provable optimal
+\begin{figure}
+\begin{algorithm}
+\Algorithm{GreedyBasicCellPhoneTyping}~$(A, k, W)$\+\\
+    // $A$ is the set of letters \\
+    // $k$ is the number of keys \\
+    // $W$ is a set of pairs of words and their corresponding frequencies \\
+    lettercount $\gets$ new\_map() \\
+    \For $c \in A$\+\\
+        lettercount$[c] \gets 0$\-\\
+    \For (word, frequency) $\in W$\+\\
+        \For $c \in$ word \+\\
+            lettercount$[c] \gets $ lettercount$[c] +$frequency\-\-\\
+    ordered $\gets \left[ ({\rm lettercount}[c], c)~\For c \in {\rm lettercount} \right]$\\
+    sort(ordered)\\
+    keys $\gets$ a array of length $k$ where each element is an empty list\\
+    \For $i \gets 0 \ldots length($ordered$)$\+\\
+        (count, char) $\gets$ ordered$[i]$\\
+        append(char, keys$[i mod k]$)\-\\
+    \Return keys
+\end{algorithm}
+\caption{The greedy algorithm for Problem~\ref{bcpt}.}
+\label{greedyalg}
+\end{figure}
+
+To solve {\sc GreedyBasicCellPhoneTyping} we construct a provably optimal
 greedy algorithm which works in time $O(|W| + |A| \log |A|)$.  Our algorithm is
 detailed in Figure~\ref{greedyalg}, and involves creating a histogram of the
 letters, and then assigning letters to keys round-robin style in the order from
@@ -145,10 +171,10 @@ constructing a sequence of sets, or spectrum, $S$.  The set $S_1$ (layer 1) is t
 letters which require a single button press (that is, they are the first
 letter in their sequence on their assigned key), $S_2$ (layer 2) is the set of
 all letters which require two button presses, and so on.  If two assignments
-have the same sequence of sets, then one assignment may be transformed into
+have equal spectra, then one assignment may be transformed into
 the other assignment simply by swapping letter between keys without
 increasing or decreasing the total number of button pushes required to enter
-the corpus of words.  If two sequences have equal spectra, then we say their corresponding assignments are isomorphic.
+the corpus of words.   Two assignments are isomorphic iff their spectra are equal.
 
 Now assume for the sake of contradiction that we have assignment $D$, with spectrum $T$, that is not isomorphic to the greedy solution $G$ with spectrum $S$.
 Note that in spectrum resulting from the greedy algorithm, all letters at layer
@@ -205,38 +231,38 @@ input methods.
 \section{The T9 Input Method}
 
 In an effort to minimize the pain of cellphone keyboard typing, cellular
-telephone manufacturers have created the ``T9'' input method, which attempts to
+telephone manufacturers have created the T9 input method, which attempts to
 guess which letter (of the 3 or 4 possible) is intended when a user hits a
-single key.  Enhancements of this input method also provide ``speculative
-lookahead'' to report, at any given time, what word it is that the user is most
+single key.  Enhancements of this input method also provide \newword{speculative
+lookahead} to report, at any given time, what word it is that the user is most
 likely trying to enter and provide a completion.  Unfortunately, because there
-are fewer keys than there are letters in the English alphabet, there are words
+are fewer keys on the cellphone keyboard than there are letters in the English alphabet, there are words
 which have different spellings but the same input sequence.  As an example, in
-the traditional mapping of keys to characters ($abc\to 2$, $def\to3$, etc),
+the traditional mapping of keys to characters
 both ``me'' and ``of'' have the input sequence ''63''.  Two words with the same
 input sequence force the user to press a third button to cycle through the
 possibilities in order from most likely (``of'') to least likely (``me'').
 Even worse: ``home'', ``good'', ``gone'', ``hood'', ``hoof'', ``hone'', and
 ``goof'' all have the input sequence ``4663''.  If the * key is used as the
 ``next match'' button, then the user will actually have to type in
-``4663******'' to type in the word ``goof''.
+``4663******'' to type in the word ``goof'', for a total of 10 button presses --- exactly the same number of button presses required using the default layout and the basic input method, and three more button presses than is required when using the basic input method with an optimized layout.
 
-When two words have the same input sequence (neglecting the *'s at the end) then these words are \newword{t9onyms}.  When two or more words are t9onyms, then the less-popular words require extra keypresses, raising the expected number of keypresses to type in a random selection of words from the english dictionary.  In order to type a given word, one must press one button for every character in the word, followed by pressing the * key as many times as there are t9onyms which are more likely than the desired wored.  Because typing on a cellphone keyboard is already an unpleasant experience, we would like to minimize the expected number of keystrokes.  The number of keystrokes a word requires is equal to the number of letters in the word, plus the number of t9onyms which are more frequent than the word.  Formally, we define the {\sc MinimalKeystrokes} problem as:
+When two words have the same input sequence (neglecting the *'s at the end) then these words are \newword{t9onyms}.  When two or more words are t9onyms, then the less-popular words require extra keypresses, raising the expected number of keypresses to type in our corpus.  In order to type a given word, one must press one button for every character in the word, followed by pressing the * key as many times as there are t9onyms which are more likely than the desired wored.  Because typing on a cellphone keyboard is already an unpleasant experience, we would like to minimize the expected number of keystrokes.  The number of keystrokes a word requires is equal to the number of letters in the word, plus the number of t9onyms which are more frequent than the word.  Formally, we extend Problem~\ref{probtemplate} and define the {\sc MinimumT9Keystrokes} problem as:
 
-\begin{theorem}[{\sc MinimumKeystrokes}]~\\
+\begin{prob}[{\sc MinimumT9Keystrokes}]~\\
 \label{thm:minstrokes}
-{\sc Instance} An alphabet $A$, a set of words and their associated probabilities $W$, and a set of keys $K$ ($|A| > |K|$).\\
+{\sc Instance} An alphabet $A$, a set of words and their associated frequencies $W$, and a number of keys $k$ ($|A| > k$).\\
 ~\\
-{\sc Question} What is the mapping of $A \to K$ which minimizes the expected number of characters to type a word from $W$?
-\end{theorem}
+{\sc Question} What is the partion $P$ of $A$ into $k$ sets which minimizes the total button presses required to enter the entire corpus using the T9 input method?
+\end{prob}
 
 and the corresponding decision problem is
 
-\begin{theorem}~\\
-{\sc Instance} An alphabet $A$, a set of words and their associated probabilities $W$, a set of keys $K$ ($|A| > |K|$), and a number $f$.\\
+\begin{prob}~\\
+{\sc Instance} An alphabet $A$, a set of words and their associated frequencies $W$, a number of keys $k$ ($|A| > k$), and a number $t$.\\
 ~\\
-{\sc Question} Is there a mapping of $A \to K$ in which the expected number of characters to type a word from $W$ is less than $f$?
-\end{theorem}
+{\sc Question} Is there a partition of $A$ into $k$ sets in which the total number of keystrokes required to enter the entire corpus using the T9 input method requires no more than $t$ button presses?
+\end{prob}
 
 Before proceeding, we note that this we note that this problem is in \NP, as
 any assignment may be verified to have and expected number of characters of
@@ -245,19 +271,19 @@ less than $f$ in time proportional to the total length of all the words in $W$.
 It is highly likely this problem is \NP-complete, due to a reduction from one of the optimal trie problems.  But I'm not there yet.
 
 However, our arbitrary remappings of the keyboard may be quickly deemed unusable.  Therefore, we define a refinement of the problem, in which the characters are required to be kept in alphabetical order as a sequence, and our only choices are about how to divide the subsequence into key assignments.  The default layout can be described as the partition $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to decide this, we define the problem {\sc MinimumKeystrokePartition} as:
-\begin{theorem}[{\sc MinimumKeystrokePartition}]~\\
+\begin{prob}[{\sc MinimumKeystrokePartition}]~\\
 \label{thm:minpartition}
 {\sc Instance} A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, and a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$).\\
 ~\\
 {\sc Question} What is the mapping $f$ of $A \to K$ which minimizes the expected number of characters to type a word from $W$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then either $f(a_{i+1}) = k$ or $f(a_{i+1}) = k+1$?
-\end{theorem}
+\end{prob}
 
 As before, the corresponding decision problem is
-\begin{theorem}~\\
+\begin{prob}~\\
 {\sc Instance} A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$), and a parameter $e$.\\
 ~\\
 {\sc Question} Is there a mapping $f$ of $A \to K$ in which the expected number of characters to type a word from $W$ is less than $e$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then $f(a_{i+1}) \in \{k, k+1\}$?
-\end{theorem}
+\end{prob}
 
 Again, we note that this decision problem is in \NP, as any proposed partition may be verified, in polynomial time, to have an expected value less than $e$.
 

@@ -1,4 +1,8 @@
+.PHONY: all clean
+
 all: article.pdf basic basicnopause basicreorder notr notrcount
+clean:
+	rm -f *.aux *.log *.bbl *.blg article.pdf basic basicnopause basicreorder notr notrcount *.pyc
 
 basic: basic.cpp
 	g++ -o $@ -O3 $<
