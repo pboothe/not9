@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 int main(int argc, char** argv)
 {
     int tmp;
@@ -33,10 +32,10 @@ int main(int argc, char** argv)
     presses['m'] = 1;
     presses['n'] = 2;
     presses['o'] = 3;
-    presses['p'] = 4;
-    presses['q'] = 3;
-    presses['r'] = 2;
-    presses['s'] = 1;
+    presses['p'] = 1;
+    presses['q'] = 2;
+    presses['r'] = 3;
+    presses['s'] = 4;
     presses['t'] = 1;
     presses['u'] = 2;
     presses['v'] = 3;
