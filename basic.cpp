@@ -80,7 +80,7 @@ int main(int argc, char** argv)
         count += i->second * level;
     }
     cout << endl;
-    cout << count << endl;
+    cout << count << " button presses" << endl;
 
     return 0;
 }
