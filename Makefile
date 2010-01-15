@@ -1,3 +1,16 @@
+a2.pdf: a2.tex bibliography.bib
+	pdflatex a2
+	bibtex a2
+	pdflatex a2
+	pdflatex a2
+
+basic: basic.cpp
+	g++ -o $@ -O3 $<
+basicnopause: basicnopause.cpp
+	g++ -o $@ -O3 $<
+basicreorder: basicreorder.cpp
+	g++ -o $@ -O3 $<
+
 article.pdf: *.tex
 	pdflatex article
 	pdflatex article
