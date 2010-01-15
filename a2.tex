@@ -1,11 +1,12 @@
 \documentclass{article}
 
-\usepackage{amsmath}
+\usepackage{amsmath,amsthm}
 \usepackage{url}
 \usepackage{graphicx}
 
 \newcommand{\newword}[1]{{\bf #1}}
 \newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
 
 \title{Using Cell Phone Keyboards is (\NP) Hard}
@@ -57,15 +58,19 @@ $$\sum_{(w,f)\in W} f*IN(w,P)$$
 \label{probtemplate}
 \end{problem}
 
+
 Over the course of this paper we consider three different real-world
 schemes for $IN$ (basic typing, T9, and predictive T9), and for each
 variant that is proven \NP-hard, we consider the restriction on $P$ that
 requires that we keep the alphabet in alphabetical order.  In all cases
 where it is computationally feasible we provide results for the case of
 the English language, on 8-key keyboards, using the British National
-Corpus\cite{bnc}.  
+Corpus\cite{bnc} (BNC).  One feature of note is that no matter what scheme we
+use, the problem is trivial if the number of keys is not smaller than the
+number of letters in the alphabet ($k \ge |A|$).  Using tiny keyboards is only
+(computationally) difficult when the keyboards don't have enough keys.
 
-\section{Setting a Baseline and Solving the Easiest Problem}
+\section{Setting a Baseline with the Easiest Problem}
 
 The baseline we compare against is the most painful method of text entry.  I
 imagine that no ``digital native'' actually uses this input method, and that it
@@ -105,6 +110,92 @@ the users spending $8.7\%$ less time entering their text messages.  In an
 effort to find out how low this can go, we define the problem {\sc
 BasicCellPhoneTyping} based on the template problem on
 page~\pageref{probtemplate}.
+
+\begin{problem}[{\sc BasicCellPhoneTyping}]~\\
+{\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
+n)$, a number of keys $k$, and a set of
+tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
+and the words are made up of solely of elements of $A$. \\
+        ~\\
+{\sc Question}: What is the best partition of $A$ into $k$ sequences, such that the
+total number of button presses to type every word in $W$ its associated frequency
+times is minimized?  The number of button presses is equal to the order of the
+letter in the sequence assigned to a given key.  For example, in the key
+$2\to\{abc\}$, $a$ requires one keystroke and $c$ requires 3.
+\label{probtemplate}
+\end{problem}
+
+Unlike almost every other problem dealing with key assignment, we can construct
+an efficient algorithm for this problem.  We can construct a provable optimal
+greedy algorithm which works in time $O(|W| + |A| \log |A|)$.  Our algorithm is
+detailed in Figure~\ref{greedyalg}, and involves creating a histogram of the
+letters, and then assigning letters to keys round-robin style in the order from
+most-popular to least-popular.  To prove optimality, we invoke an exchange argument.
+
+\begin{theorem}
+The greedy algorithm finds an optimal solution to {\sc BasicCellPhoneTyping}.
+\label{basicthm}
+\end{theorem}
+\begin{proof}
+We will assume, for simplicity of proof, that all letters occur a different number of times in the corpus.  
+We begin by comparing two assignments of letters to keys by, for each assignment,
+constructing a sequence of sets, or spectrum, $S$.  The set $S_1$ (layer 1) is the set of all
+letters which require a single button press (that is, they are the first
+letter in their sequence on their assigned key), $S_2$ (layer 2) is the set of
+all letters which require two button presses, and so on.  If two assignments
+have the same sequence of sets, then one assignment may be transformed into
+the other assignment simply by swapping letter between keys without
+increasing or decreasing the total number of button pushes required to enter
+the corpus of words.  If two sequences have equal spectra, then we say their corresponding assignments are isomorphic.
+
+Now assume for the sake of contradiction that we have assignment $D$, with spectrum $T$, that is not isomorphic to the greedy solution $G$ with spectrum $S$.
+Note that in spectrum resulting from the greedy algorithm, all letters at layer
+$i$ occur strictly more frequently than the letters at layer $j$, $j > i$.
+Also, in $S$, for all layers $i$ except for the last layer, $|S_i| = k$.
+Because $T$ and $S$ are not isomorphic, in $T$ there must be at least one layer $i$ such that $T_i \neq S_i$.  Let $T_i$ be the first layer for which that is true.
+
+There are two cases for layer $T_i$.  In the first case, $T_i < k$, and we may
+remove any element from a later layer and create a strictly better layout.  In
+the second case, there is some letter $a$ such that $a \in T_i$ and $a \not\in
+S_i$.  We choose the least-frequent such $a$.  Because the greedy layout
+algorithm creates layers in order of frequency, we know that the frequency of
+$a$ is less than that of some letter $b$ in layer $T_j$, $j>i$.  Therefore, by
+creating a new layout with $a$ and $b$ swapped between $T_i$ and $T_j$, we have
+strictly decreased the number of button presses.  Therefore, in both cases,
+$T$ was not an optimal layout, and we have reached our contradiction.
+\end{proof}
+
+For the BNC, the optimal layout has the spectrum 
+$$[\{etaoinsr\}, \{hldcumfp\}, \{gwybvkxj\}, \{qz\}]$$
+and will require 638,276,114 button presses to
+entire the entire corpus instead of our original requirements of
+948,049,046.  This represents a savings of $32.67\%$ over our original
+layout, but only for the case of users who type using the most basic of
+input methods.  Unfortunately, this is the group of users who are likely
+the least adaptable to change, as almost all ``digital natives'' use one of
+the predictive methods to input text messages\footnote{I have no statistics
+on this except for an informal survey of one of my classes.  In that
+class, every student who used SMS either had a cellphone with a 26+
+key alphabetic keyboard or used a predictive method.}.  If we would
+like to place the least burden on these users whilst still
+decreasing the number of button presses, we now consider schemes
+where the only alteration of the keyboard is the rearrangement of
+the sequence of letters for a given key.
+
+By an argument symmetric to the proof of Theorem~\ref{basicthm}, we
+find that the optimal layout in this new scheme is to place the letters of a
+given key in sorted order.  Thus, the keyboard layout changes to $2\to[acb],
+3\to[edf], 4\to[ihg], 5\to[lkj], 6\to[onm], 7\to[srpq],
+8\to[tuv], 9\to[wyxz]$ and requires 678,547,463 button presses to
+enter the whole corpus.  This represents a $28.43\%$ savings, but has the
+added benefit that it does not change which key is mapped to which set of
+letters.  Furthermore, it also is \newword{legacy preserving}, as
+creating a keyboard with this layout will not invalidate such advertising
+gems as 1-800-FLOWERS or 1-800-MARINES.  Thus, we can speed up users by
+$28.43\%$ (neglecting inter-letter pauses) and not undermine 50 years of
+phone advertising.  This layout represents perhaps the most plausible
+layout yet.
+
 
 \bibliographystyle{abbrv}
 \bibliography{bibliography}
