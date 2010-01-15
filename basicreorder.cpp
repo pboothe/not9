@@ -9,6 +9,8 @@ using namespace std;
 
 bool freqcompare(pair<char, long long> f, pair<char, long long> s) { return f.second > s.second; }
 
+string alphabet = "abcdefghijklmnopqrstuvwxyz";
+
 int main(int argc, char** argv)
 {
     int tmp;
@@ -19,32 +21,10 @@ int main(int argc, char** argv)
     win >> word; // Eat the rest of the header
 
     map<char,long long> freq;
-    freq['a'] = 0;
-    freq['b'] = 0;
-    freq['c'] = 0;
-    freq['d'] = 0;
-    freq['e'] = 0;
-    freq['f'] = 0;
-    freq['g'] = 0;
-    freq['h'] = 0;
-    freq['i'] = 0;
-    freq['j'] = 0;
-    freq['k'] = 0;
-    freq['l'] = 0;
-    freq['m'] = 0;
-    freq['n'] = 0;
-    freq['o'] = 0;
-    freq['p'] = 0;
-    freq['q'] = 0;
-    freq['r'] = 0;
-    freq['s'] = 0;
-    freq['t'] = 0;
-    freq['u'] = 0;
-    freq['v'] = 0;
-    freq['w'] = 0;
-    freq['x'] = 0;
-    freq['y'] = 0;
-    freq['z'] = 0;
+    for (string::iterator c = alphabet.begin();
+            c != alphabet.end();
+            ++c)
+        freq[*c] = 0;
 
     long long count;
     while (win >> count) {
