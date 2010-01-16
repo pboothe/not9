@@ -101,7 +101,7 @@ using the standard cell phone keyboard layout, we find that entering the
 entirety of the 100,106,029 word occurrences in the corpus would require
 948,049,046 button presses.  
 
-If we examine a cell phone keyboard (Figure~\ref{keypic}) then we can see that
+If we examine a cell phone keyboard (Fig.~\ref{keypic}) then we can see that
 there are some terrible choices being made.  The frequently-occurring letters
 'r' and 's' require more keystrokes than 'q'!  Surely, a better designed
 keyboard can do better than this.  If we just reversed the order of the letters
@@ -150,13 +150,13 @@ minimizes $$\sum_{(w,f) \in W}\sum_{c\in w} \mathrm{IN}_P(c) * f$$
         append(char, keys$[i mod k]$)\-\\
     \Return keys
 \end{algorithm}
-\caption{The greedy algorithm for Problem~\ref{bcpt}.}
+\caption{The greedy algorithm for Prob.~\ref{bcpt}.}
 \label{greedyalg}
 \end{figure}
 
 To solve {\sc BasicCellPhoneTyping} we construct a provably optimal
 greedy algorithm which works in time $O(|W| + |A| \log |A|)$.  Our algorithm is
-detailed in Figure~\ref{greedyalg}, and involves creating a histogram of the
+detailed in Fig.~\ref{greedyalg}, and involves creating a histogram of the
 letters, and then assigning letters to keys round-robin style in the order from
 most-popular to least-popular.  To prove optimality, we invoke an exchange argument.
 
@@ -247,7 +247,7 @@ Even worse: ``home'', ``good'', ``gone'', ``hood'', ``hoof'', ``hone'', and
 ``next match'' button, then the user will actually have to type in
 ``4663******'' to type in the word ``goof'', for a total of 10 button presses --- exactly the same number of button presses required using the default layout and the basic input method, and three more button presses than is required when using the basic input method with an optimized layout.
 
-When two words have the same input sequence (neglecting the *'s at the end) then these words are \newword{t9onyms}.  When two or more words are t9onyms, then the less-popular words require extra keypresses, raising the expected number of keypresses to type in our corpus.  In order to type a given word, one must press one button for every character in the word, followed by pressing the * key as many times as there are t9onyms which are more likely than the desired wored.  Because typing on a cellphone keyboard is already an unpleasant experience, we would like to minimize the expected number of keystrokes.  The number of keystrokes a word requires is equal to the number of letters in the word, plus the number of t9onyms which are more frequent than the word.  Formally, we extend Problem~\ref{probtemplate} and define the {\sc MinimumT9Keystrokes} problem as:
+When two words have the same input sequence (neglecting the *'s at the end) then these words are \newword{t9onyms}.  When two or more words are t9onyms, then the less-popular words require extra keypresses, raising the expected number of keypresses to type in our corpus.  In order to type a given word, one must press one button for every character in the word, followed by pressing the * key as many times as there are t9onyms which are more likely than the desired wored.  Because typing on a cellphone keyboard is already an unpleasant experience, we would like to minimize the expected number of keystrokes.  The number of keystrokes a word requires is equal to the number of letters in the word, plus the number of t9onyms which are more frequent than the word.  Formally, we extend Prob.~\ref{probtemplate} and define the {\sc MinimumT9Keystrokes} problem as:
 
 \begin{prob}[{\sc MinimumT9Keystrokes}]~\\
 \label{thm:minstrokes}
@@ -289,7 +289,7 @@ Again, we note that this decision problem is in \NP, as any proposed partition m
 
 \section{Exhaustive Search}
 
-Because our problems are \NP-hard, we move on to combinatorial enumeration and experimental results.  The number of partitions of a set of size $n$, which we denote $p(n)$ is actually relatively small.  In particular, $p(26) = 2,436$\footnote{\url{http://www.wolframalpha.com/input/?i=PartitionsP[26]}}, which is easily enumerated and tested.
+Because our problems are \NP-hard, we move on to combinatorial enumeration and experimental results.  The number of partitions of a sequence of size $n$ into $k$ subsequences is equal to $\binom{n-1}{k-1}$, and in the particular case of the 26 letter alphabet and the eight keys available on a cell phone keyboard, we find that there are $\binom{26-1}{8-1} = 480,700$ possible sequences.
 
 \bibliographystyle{abbrv}
 \bibliography{bibliography}
