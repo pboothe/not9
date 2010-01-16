@@ -46,7 +46,7 @@ Before we get any farther, let us sketch the basic problem that we will keep
 revising and revisiting throughout this paper.
 \begin{prob}[{\sc MinimumKeystrokes}]~\\
 {\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
-n)$, a number of keys $k$, an input method $IN$, and a set of
+n)$, a number of keys $k$, an input method $\mathrm{IN}$, and a set of
 tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
 and the words are made up of solely of elements of $A$.  We will
 treat $IN$ as a function which, given a partition of $A$ and a word
@@ -56,13 +56,13 @@ $w$, returns how many keystrokes are required to type $w$.~\\
 total number of keystrokes to type every word in $W$ its associated frequency
 times is minimized?  Equivalently, what is the partition of $P$ of $A$ ($|P| = k$) that
 will minimize
-$$\sum_{(w,f)\in W} f*IN(w,P)$$
+$$\sum_{(w,f)\in W} f*\mathrm{IN}(w,P)$$
 \label{probtemplate}
 \end{prob}
 
 
 Over the course of this paper we consider three different real-world
-schemes for $IN$ (basic typing, T9, and predictive T9), and for each
+schemes for $\mathrm{IN}$ (basic typing, T9, and predictive T9), and for each
 variant that is proven \NP-hard, we consider the restriction on $P$ that
 requires that we keep the alphabet in alphabetical order.  In all cases
 where it is computationally feasible we provide results for the case of
@@ -125,8 +125,8 @@ associated frequency times is minimized?  The number of button presses is equal
 to the order of the letter in the sequence assigned to a given key.  For
 example, in the key $2\to\{abc\}$, $a$ requires one keystroke and $c$ requires
 3.  Equivalently, if we denote the number of button presses required to type
-letter $a$ with partition $P$ as $IN_P(a)$, then we want to find the $P$ that
-minimizes $$\sum_{(w,f) \in W}\sum_{c\in w} IN_P(c) * f$$
+letter $a$ with partition $P$ as $\mathrm{IN}_P(a)$, then we want to find the $P$ that
+minimizes $$\sum_{(w,f) \in W}\sum_{c\in w} \mathrm{IN}_P(c) * f$$
 \label{bcpt}
 \end{prob}
 
