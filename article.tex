@@ -7,6 +7,9 @@
 
 \newcommand{\newword}[1]{{\bf #1}}
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+\newcommand{\Instance}{\Instance}
+\newcommand{\Question}{~\\
+\Question}
 \spnewtheorem{prob}[theorem]{Problem}{\bfseries}{\itshape}
 
 \title{Using Cell Phone Keyboards is (\NP) Hard}
@@ -45,14 +48,14 @@ NP-hard, unfortunately.
 Before we get any farther, let us sketch the basic problem that we will keep
 revising and revisiting throughout this paper.
 \begin{prob}[{\sc MinimumKeystrokes}]~\\
-{\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
+\Instance\ A set of letters corresponding to an alphabet $A$ $(|A| =
 n)$, a number of keys $k$, an input method $\mathrm{IN}$, and a set of
 tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
 and the words are made up of solely of elements of $A$.  We will
 treat $IN$ as a function which, given a partition of $A$ and a word
-$w$, returns how many keystrokes are required to type $w$.~\\
-        ~\\
-{\sc Question}: What is the best partition of $A$ into $k$ sets, such that the
+$w$, returns how many keystrokes are required to type $w$.
+
+\Question\ What is the best partition of $A$ into $k$ sets, such that the
 total number of keystrokes to type every word in $W$ its associated frequency
 times is minimized?  Equivalently, what is the partition of $P$ of $A$ ($|P| = k$) that
 will minimize
@@ -114,12 +117,12 @@ BasicCellPhoneTyping} based on the template problem on
 page~\pageref{probtemplate}.
 
 \begin{prob}[{\sc BasicCellPhoneTyping}]~\\
-{\sc Instance}: A set of letters corresponding to an alphabet $A$ $(|A| =
+\Instance\ A set of letters corresponding to an alphabet $A$ $(|A| =
 n)$, a number of keys $k$, and a set of
 tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
 and the words are made up of solely of elements of $A$. \\
         ~\\
-{\sc Question}: What is the best partition $P$ of $A$ into $k$ sequences, such
+\Question\ What is the best partition $P$ of $A$ into $k$ sequences, such
 that the total number of button presses to type every word in $W$ its
 associated frequency times is minimized?  The number of button presses is equal
 to the order of the letter in the sequence assigned to a given key.  For
@@ -251,38 +254,44 @@ When two words have the same input sequence (neglecting the *'s at the end) then
 
 \begin{prob}[{\sc MinimumT9Keystrokes}]~\\
 \label{thm:minstrokes}
-{\sc Instance} An alphabet $A$, a set of words and their associated frequencies $W$, and a number of keys $k$ ($|A| > k$).\\
+\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, and a number of keys $k$ ($|A| > k$).\\
 ~\\
-{\sc Question} What is the partion $P$ of $A$ into $k$ sets which minimizes the total button presses required to enter the entire corpus using the T9 input method?
+\Question\ What is the partion $P$ of $A$ into $k$ sets which minimizes the total button presses required to enter the entire corpus using the T9 input method?
 \end{prob}
 
 and the corresponding decision problem is
 
 \begin{prob}~\\
-{\sc Instance} An alphabet $A$, a set of words and their associated frequencies $W$, a number of keys $k$ ($|A| > k$), and a number $t$.\\
+\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, a number of keys $k$ ($|A| > k$), and a number $t$.\\
 ~\\
-{\sc Question} Is there a partition of $A$ into $k$ sets in which the total number of keystrokes required to enter the entire corpus using the T9 input method requires no more than $t$ button presses?
+\Question\ Is there a partition of $A$ into $k$ sets in which the total number of keystrokes required to enter the entire corpus using the T9 input method requires no more than $t$ button presses?
 \end{prob}
 
 Before proceeding, we note that this we note that this problem is in \NP, as
 any assignment may be verified to have and expected number of characters of
 less than $f$ in time proportional to the total length of all the words in $W$.
+In order to prove completeness, however, we first prove the \NP-completeness of an intermediate problem: {\sc UniquePathColoring}.
 
-It is highly likely this problem is \NP-complete, due to a reduction from one of the optimal trie problems.  But I'm not there yet.
+\begin{prob}[{\sc UniquePathColoring}]~\\
+\label{upcolor}
+\Instance\ A graph $G=(V,E)$, a set of paths $P$, and a parameter $k$.\\
+~\\
+\Question\
+\end{prob}
 
 However, our arbitrary remappings of the keyboard may be quickly deemed unusable.  Therefore, we define a refinement of the problem, in which the characters are required to be kept in alphabetical order as a sequence, and our only choices are about how to divide the subsequence into key assignments.  The default layout can be described as the partition $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to decide this, we define the problem {\sc MinimumKeystrokePartition} as:
 \begin{prob}[{\sc MinimumKeystrokePartition}]~\\
 \label{thm:minpartition}
-{\sc Instance} A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, and a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$).\\
-~\\
-{\sc Question} What is the mapping $f$ of $A \to K$ which minimizes the expected number of characters to type a word from $W$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then either $f(a_{i+1}) = k$ or $f(a_{i+1}) = k+1$?
+\Instance\ A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, and a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$).
+
+\Question\ What is the mapping $f$ of $A \to K$ which minimizes the expected number of characters to type a word from $W$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then either $f(a_{i+1}) = k$ or $f(a_{i+1}) = k+1$?
 \end{prob}
 
 As before, the corresponding decision problem is
 \begin{prob}~\\
-{\sc Instance} A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$), and a parameter $e$.\\
-~\\
-{\sc Question} Is there a mapping $f$ of $A \to K$ in which the expected number of characters to type a word from $W$ is less than $e$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then $f(a_{i+1}) \in \{k, k+1\}$?
+\Instance\ A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$), and a parameter $e$.
+
+\Question\ Is there a mapping $f$ of $A \to K$ in which the expected number of characters to type a word from $W$ is less than $e$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then $f(a_{i+1}) \in \{k, k+1\}$?
 \end{prob}
 
 Again, we note that this decision problem is in \NP, as any proposed partition may be verified, in polynomial time, to have an expected value less than $e$.
