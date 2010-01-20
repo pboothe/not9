@@ -7,9 +7,9 @@
 
 \newcommand{\newword}[1]{{\bf #1}}
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
-\newcommand{\Instance}{\Instance}
+\newcommand{\Instance}{{\sc Instance~}}
 \newcommand{\Question}{~\\
-\Question}
+{\sc Question~}}
 \spnewtheorem{prob}[theorem]{Problem}{\bfseries}{\itshape}
 
 \title{Using Cell Phone Keyboards is (\NP) Hard}
@@ -120,8 +120,8 @@ page~\pageref{probtemplate}.
 \Instance\ A set of letters corresponding to an alphabet $A$ $(|A| =
 n)$, a number of keys $k$, and a set of
 tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
-and the words are made up of solely of elements of $A$. \\
-        ~\\
+and the words are made up of solely of elements of $A$. 
+
 \Question\ What is the best partition $P$ of $A$ into $k$ sequences, such
 that the total number of button presses to type every word in $W$ its
 associated frequency times is minimized?  The number of button presses is equal
@@ -224,60 +224,109 @@ advertising gems as 1-800-FLOWERS.  Thus, we can speed up users by $28.43\%$
 (neglecting inter-letter pauses) and not undermine 50 years of advertising.
 This layout represents perhaps the most plausible layout yet\footnote{The
 described layout is the only legacy preserving layout in this paper, and
-therefore should be considered the most practical suggestion, despite the fact
-that its algorithm is among the least FUN.  It also has the added benefit of
-not angering any of the organizations behind the numbers 1-800-FLOWERS,
-1-800-THRIFTY, and 1-800-MARINES}.  After setting up this baseline for the easy
-problem, we turn our attention to optimizing cellphone keyboards for predictive
-input methods.
+therefore should be considered the most practical suggestion.  It also has the
+added benefit of not angering any of the organizations behind the numbers
+1-800-FLOWERS, 1-800-THRIFTY, and 1-800-MARINES}.  After setting up this
+baseline for the easy problem, we turn our attention to optimizing cellphone
+keyboards for predictive input methods.
 
 \section{The T9 Input Method}
 
 In an effort to minimize the pain of cellphone keyboard typing, cellular
 telephone manufacturers have created the T9 input method, which attempts to
 guess which letter (of the 3 or 4 possible) is intended when a user hits a
-single key.  Enhancements of this input method also provide \newword{speculative
-lookahead} to report, at any given time, what word it is that the user is most
-likely trying to enter and provide a completion.  Unfortunately, because there
-are fewer keys on the cellphone keyboard than there are letters in the English alphabet, there are words
-which have different spellings but the same input sequence.  As an example, in
-the traditional mapping of keys to characters
-both ``me'' and ``of'' have the input sequence ''63''.  Two words with the same
-input sequence force the user to press a third button to cycle through the
-possibilities in order from most likely (``of'') to least likely (``me'').
-Even worse: ``home'', ``good'', ``gone'', ``hood'', ``hoof'', ``hone'', and
-``goof'' all have the input sequence ``4663''.  If the * key is used as the
-``next match'' button, then the user will actually have to type in
-``4663******'' to type in the word ``goof'', for a total of 10 button presses --- exactly the same number of button presses required using the default layout and the basic input method, and three more button presses than is required when using the basic input method with an optimized layout.
+single key.  Enhancements of this input method also provide
+\newword{speculative lookahead} to report, at any given time, what word it is
+that the user is most likely trying to enter and provide a completion.
+Unfortunately, because there are fewer keys on the cellphone keyboard than
+there are letters in the English alphabet, there are words which have different
+spellings but the same input sequence.  As an example, in the traditional
+mapping of keys to characters both ``me'' and ``of'' have the input sequence
+``63''.  Two words with the same input sequence force the user to press a third
+button to cycle through the possibilities in order from most likely (``of'') to
+least likely (``me'').  Even worse: ``home'', ``good'', ``gone'', ``hood'',
+``hoof'', ``hone'', and ``goof'' all have the input sequence ``4663''.  If
+the * key is used as the ``next match'' button, then the user will actually
+have to type in ``4663******'' to type in the word ``goof'', for a total of 10
+button presses --- exactly the same number of button presses required using the
+default layout and the basic input method, and three more button presses than
+is required when using the basic input method with an optimized layout.
 
-When two words have the same input sequence (neglecting the *'s at the end) then these words are \newword{t9onyms}.  When two or more words are t9onyms, then the less-popular words require extra keypresses, raising the expected number of keypresses to type in our corpus.  In order to type a given word, one must press one button for every character in the word, followed by pressing the * key as many times as there are t9onyms which are more likely than the desired wored.  Because typing on a cellphone keyboard is already an unpleasant experience, we would like to minimize the expected number of keystrokes.  The number of keystrokes a word requires is equal to the number of letters in the word, plus the number of t9onyms which are more frequent than the word.  Formally, we extend Prob.~\ref{probtemplate} and define the {\sc MinimumT9Keystrokes} problem as:
+When two words have the same input sequence (neglecting the *'s at the end)
+then these words are \newword{t9onyms}.  When two or more words are t9onyms,
+then the less-popular words require extra keypresses, raising the expected
+number of keypresses to type in our corpus.  In order to type a given word, one
+must press one button for every character in the word, followed by pressing
+the * key as many times as there are t9onyms which are more likely than the
+desired wored.  Because typing on a cellphone keyboard is already an unpleasant
+experience, we would like to minimize the expected number of keystrokes.  The
+number of keystrokes a word requires is equal to the number of letters in the
+word, plus the number of t9onyms which are more frequent than the word.
+Formally, we extend Prob.~\ref{probtemplate} and define the {\sc
+MinimumT9Keystrokes} problem as:
 
 \begin{prob}[{\sc MinimumT9Keystrokes}]~\\
 \label{thm:minstrokes}
-\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, and a number of keys $k$ ($|A| > k$).\\
-~\\
+\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, and a number of keys $k$ ($|A| > k$).
+
 \Question\ What is the partion $P$ of $A$ into $k$ sets which minimizes the total button presses required to enter the entire corpus using the T9 input method?
 \end{prob}
 
 and the corresponding decision problem is
 
 \begin{prob}~\\
-\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, a number of keys $k$ ($|A| > k$), and a number $t$.\\
-~\\
+\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, a number of keys $k$ ($|A| > k$), and a number $t$.
+
 \Question\ Is there a partition of $A$ into $k$ sets in which the total number of keystrokes required to enter the entire corpus using the T9 input method requires no more than $t$ button presses?
 \end{prob}
 
-Before proceeding, we note that this we note that this problem is in \NP, as
-any assignment may be verified to have and expected number of characters of
-less than $f$ in time proportional to the total length of all the words in $W$.
-In order to prove completeness, however, we first prove the \NP-completeness of an intermediate problem: {\sc UniquePathColoring}.
+Note that this problem is in \NP, as any assignment may be verified to require
+fewer than $f$ button pushes in time proportional to the
+total length of all the words in $W$.  In order to prove completeness, however,
+we first prove the \NP-completeness of an intermediate problem: {\sc
+UniquePathColoring}.
 
 \begin{prob}[{\sc UniquePathColoring}]~\\
 \label{upcolor}
-\Instance\ A graph $G=(V,E)$, a set of paths $P$, and a parameter $k$.\\
-~\\
-\Question\
+\Instance\ A graph $G=(V,E)$, a set of paths $P$, and a parameter $k$.  A path $p$ is a sequence of vertices in which adjacent vertices in $p$ are also adjacent in the edge set $E$.
+
+\Question\ Is there a $k$-coloring of $G$ such that every path $p\in P$ has a unique coloring?  If we consider the coloring function $\chi(v)$ to map vertices to colors, then we can extend this notation by having $\chi(p)$ map a path $p = [ v_1, v_2, \ldots ]$ to the sequence $\chi(p) = [ \chi(v_1), \chi(v_2), \ldots ]$.  Is there a coloring $\chi$ of $V$ such that 
+    $$|\left\{ \chi(p)~\forall p \in P\right\}| = |P|\enspace ?$$
 \end{prob}
+
+\begin{proof}[{\sc UniquePathColoring} is \NP-complete]
+To prove that {\sc UniquePathColoring} is \NP-complete, we begin by noting that any coloring of $V$ may be verified, in polynomial time, to map each path to a unique sequence of colors.  Therefore, the problem is in \NP.  To prove completeness, we reduce from {\sc GraphColoring}\cite{gandj}.
+
+An instance of {\sc GraphColoring } consists of a graph $G=(V,E)$ and a parameter $k$.  We then ask the question of whether there is a $k$-coloring $\chi$ of the vertices of the graph such that $\forall (u,v)\in E$, $\chi(u) \neq \chi(v)$.  We transform an instance of {\sc GraphColoring} into an instance of {\sc UniquePathColoring} in the following manner:
+
+Given $G=(V,E)$ and $k$ from {\sc GraphColoring}, we create 
+$$G'=\left(V \cup \{0,1\}, E \cup \{(0,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$
+We then uniquely number each edge in $E$ with the numbers $1 \ldots |E|$.  For each edge $e = (u,v)$ numbered $i$, we create the path set 
+\begin{eqnarray*}
+p_i &=& \{[v,0,b_1(i),b_2(i), b_3(i), \ldots b_{\lceil \log_2 i\rceil}], \\
+    & &  ~[u, 0,b_1(i),b_2(i), b_3(i), \ldots b_{\lceil \log_2 i\rceil}]\} \\
+\end{eqnarray*}
+where $b_1(i)$ is the first digit of $i$ in binary, $b_2(i)$ is the second digit of $i$ in binary, and so on.  Now we create our path set 
+$$P = \{ [0,1], [1,0] \} \cup \bigcup_{i = 1}^{|E|} p_i \enspace .$$
+We then ask the question of whether $G'$ and $P$ can be unique-path colored using only $k$ colors.
+
+If there is a $k$-coloring $\chi$ of $G$, then we use that coloring to generate
+a $k$-unique-path coloring of $G'$ and $P$ in the following manner: First,
+assign vertices $0$ and $1$ different colors from the range of $\chi$.  Next,
+assign each vertex to the color it received in the $k$-coloring of $G'$.  Now,
+every element of our path set corresponds to a unique color sequence.  $[0,1]$
+and $[1,0]$ are the only sequences of length two, and because we assigned these
+two vertices different colors, $\chi([0,1]) \neq \chi([1,0])$.  If path $x$ and
+path $y$ are not from the same $p_i$, then they have a different sequence of
+zeroes and ones.  Therefore, because $0$ and $1$ are assigned different colors,
+the only possible path that a given path in some $p_i$ might be confused with
+is the other path in that $p_i$.  But each $p_i$ corresponds to a an edge in
+$E$, and we know for all edges in $(u,v) \in E$ that $\chi(u) \neq \chi(v)$.
+Therefore, both paths within a given $p_i$ also have a distinct color sequence.  Therefore, given a $k$-coloring of $G$, we can generate a $k$-unique-path coloring of $G'$ and $P$.
+
+Now we prove that given a $k$-unique-path coloring of $G'$ and $P$ we can create a $k$-coloring of $G$.
+
+\end{proof}
 
 However, our arbitrary remappings of the keyboard may be quickly deemed unusable.  Therefore, we define a refinement of the problem, in which the characters are required to be kept in alphabetical order as a sequence, and our only choices are about how to divide the subsequence into key assignments.  The default layout can be described as the partition $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to decide this, we define the problem {\sc MinimumKeystrokePartition} as:
 \begin{prob}[{\sc MinimumKeystrokePartition}]~\\
