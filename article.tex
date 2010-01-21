@@ -87,8 +87,10 @@ letters that use the same key, such as `accept', the user must pause
 between keystrokes.  Thus, the full key entry sequence for `accept', using
 `.' to indicate a pause, is `2.22.223378'.
 
-\begin{figure}
+\begin{figure}[t]
+\begin{center}
 \includegraphics[width=2in]{phonekeys.jpg}
+\end{center}
 \caption{A cell phone keyboard}
 \label{keypic}
 \end{figure}
@@ -185,8 +187,8 @@ $i$ occur strictly more frequently than the letters at layer $j$, $j > i$.
 Also, in $S$, for all layers $i$ except for the last layer, $|S_i| = k$.
 Because $T$ and $S$ are not isomorphic, in $T$ there must be at least one layer $i$ such that $T_i \neq S_i$.  Let $T_i$ be the first layer for which that is true.
 
-There are two cases for layer $T_i$.  In the first case, $T_i < k$, and we may
-remove any element from a later layer and create a strictly better layout.  In
+There are two cases for layer $T_i$.  In the first case, $|T_i| < k$, and we may
+remove any element from a later layer place it in layer $T_i$ and create a strictly better layout.  In
 the second case, there is some letter $a$ such that $a \in T_i$ and $a \not\in
 S_i$.  We choose the least-frequent such $a$.  Because the greedy layout
 algorithm creates layers in order of frequency, we know that the frequency of
@@ -194,6 +196,7 @@ $a$ is less than that of some letter $b$ in layer $T_j$, $j>i$.  Therefore, by
 creating a new layout with $a$ and $b$ swapped between $T_i$ and $T_j$, we have
 strictly decreased the number of button presses.  Therefore, in both cases,
 $T$ was not an optimal layout, and we have reached our contradiction.
+\qed
 \end{proof}
 
 For the BNC, the optimal layout has the spectrum 
@@ -214,21 +217,21 @@ keyboard is the rearrangement of the sequence of letters for a given key.
 
 By an argument symmetric to the proof of Theorem~\ref{basicthm}, we find that
 the optimal layout in this new scheme is to place the letters of a given key in
-sorted order.  Thus, the keyboard layout changes to $2\to[acb], 3\to[edf],
-4\to[ihg], 5\to[lkj], 6\to[onm], 7\to[srpq], 8\to[tuv], 9\to[wyxz]$ and
-requires 678,547,463 button presses to enter the whole corpus.  This represents
-a $28.43\%$ savings, but has the added benefit that it does not change which
-key is mapped to which set of letters.  This makes it \newword{legacy
-preserving}, as creating a keyboard with this layout will not invalidate such
-advertising gems as 1-800-FLOWERS.  Thus, we can speed up users by $28.43\%$
-(neglecting inter-letter pauses) and not undermine 50 years of advertising.
-This layout represents perhaps the most plausible layout yet\footnote{The
-described layout is the only legacy preserving layout in this paper, and
-therefore should be considered the most practical suggestion.  It also has the
-added benefit of not angering any of the organizations behind the numbers
-1-800-FLOWERS, 1-800-THRIFTY, and 1-800-MARINES}.  After setting up this
-baseline for the easy problem, we turn our attention to optimizing cellphone
-keyboards for predictive input methods.
+sorted order, according to frequency.  Thus, the keyboard layout changes to
+$2\to[acb], 3\to[edf], 4\to[ihg], 5\to[lkj], 6\to[onm], 7\to[srpq], 8\to[tuv],
+9\to[wyxz]$ and requires 678,547,463 button presses to enter the whole corpus.
+This represents a $28.43\%$ savings, but has the added benefit that it does not
+change which key is mapped to which set of letters.  This makes it
+\newword{legacy preserving}, as creating a keyboard with this layout will not
+invalidate such advertising gems as 1-800-FLOWERS.  Thus, we can speed up users
+by $28.43\%$ (neglecting inter-letter pauses) and not undermine 50 years of
+advertising.  This layout represents perhaps the most plausible layout
+yet\footnote{The described layout is the only legacy preserving layout in this
+paper, and therefore should be considered the most practical suggestion.  It
+also has the added benefit of not angering any of the organizations behind the
+numbers 1-800-FLOWERS, 1-800-THRIFTY, and 1-800-MARINES}.  After setting up
+this baseline for the easy problem, we turn our attention to optimizing
+cellphone keyboards for predictive input methods.
 
 \section{The T9 Input Method}
 
@@ -325,7 +328,7 @@ $E$, and we know for all edges in $(u,v) \in E$ that $\chi(u) \neq \chi(v)$.
 Therefore, both paths within a given $p_i$ also have a distinct color sequence.  Therefore, given a $k$-coloring of $G$, we can generate a $k$-unique-path coloring of $G'$ and $P$.
 
 Now we prove that given a $k$-unique-path coloring of $G'$ and $P$ we can create a $k$-coloring of $G$.
-
+\qed
 \end{proof}
 
 However, our arbitrary remappings of the keyboard may be quickly deemed unusable.  Therefore, we define a refinement of the problem, in which the characters are required to be kept in alphabetical order as a sequence, and our only choices are about how to divide the subsequence into key assignments.  The default layout can be described as the partition $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to decide this, we define the problem {\sc MinimumKeystrokePartition} as:
