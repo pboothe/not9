@@ -46,14 +46,13 @@ make messages easier to type.  Most variants of this problem turn out to be
 NP-hard, unfortunately.
 
 Before we get any farther, let us sketch the basic problem that we will keep
-revising and revisiting throughout this paper.
-\begin{prob}[{\sc MinimumKeystrokes}]~\\
-\Instance\ A set of letters corresponding to an alphabet $A$ $(|A| =
-n)$, a number of keys $k$, an input method $\mathrm{IN}$, and a set of
-tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
-and the words are made up of solely of elements of $A$.  We will
-treat $IN$ as a function which, given a partition of $A$ and a word
-$w$, returns how many keystrokes are required to type $w$.
+revising and revisiting throughout this paper.  \begin{prob}[{\sc
+MinimumKeystrokes}]~\\ \Instance\ A set of letters corresponding to an alphabet
+$A$ $(|A| = n)$, a number of keys $k$, an input method $\mathrm{IN}$, and a set
+of tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
+and the words are made up of solely of elements of $A$.  We will treat $IN$ as
+a function which, given a partition of $A$ and a word $w$, returns how many
+keystrokes are required to type $w$.
 
 \Question\ What is the best partition of $A$ into $k$ sets, such that the
 total number of keystrokes to type every word in $W$ its associated frequency
@@ -64,28 +63,26 @@ $$\sum_{(w,f)\in W} f*\mathrm{IN}(w,P)$$
 \end{prob}
 
 
-Over the course of this paper we consider three different real-world
-schemes for $\mathrm{IN}$ (basic typing, T9, and predictive T9), and for each
-variant that is proven \NP-hard, we consider the restriction on $P$ that
-requires that we keep the alphabet in alphabetical order.  In all cases
-where it is computationally feasible we provide results for the case of
-the English language, on 8-key keyboards, using the British National
-Corpus\cite{bnc} (BNC).  One feature of note is that no matter what scheme we
-use, the problem is trivial if the number of keys is not smaller than the
-number of letters in the alphabet ($k \ge |A|$).  Using tiny keyboards is only
-(computationally) difficult when the keyboards don't have enough keys.
+Over the course of this paper we consider three different real-world schemes
+for $\mathrm{IN}$ (basic typing, T9, and predictive T9), and for each variant
+that is proven \NP-hard, we consider the restriction on $P$ that requires that
+we keep the alphabet in alphabetical order.  In all cases where it is
+computationally feasible we provide results for the case of the English
+language, on 8-key keyboards, using the British National Corpus\cite{bnc}
+(BNC).  One feature of note is that no matter what scheme we use, the problem
+is trivial if the number of keys is not smaller than the number of letters in
+the alphabet ($k \ge |A|$).  Using tiny keyboards is only (computationally)
+difficult when the keyboards don't have enough keys.
 
 \section{Setting a Baseline with the Easiest Problem}
 
-The baseline we compare against is the most painful method of text entry.  I
-imagine that no ``digital native'' actually uses this input method, and that it
-is available on all phones solely that their parents might use it.  In this
+The baseline we compare against is the most painful method of text entry.  In this
 method, to type an `a', the user of the cellphone types the `2' key; to type a
 `b' they type `22', to type `c' they type `222', to type a `d' they type `3',
-to type an `e' they type `33', and so on.  To type a word with multiple
-letters that use the same key, such as `accept', the user must pause
-between keystrokes.  Thus, the full key entry sequence for `accept', using
-`.' to indicate a pause, is `2.22.223378'.
+to type an `e' they type `33', and so on.  To type a word with multiple letters
+that use the same key, such as `accept', the user must pause between
+keystrokes.  Thus, the full key entry sequence for `accept', using `.' to
+indicate a pause, is `2.22.223378'.
 
 \begin{figure}[t]
 \begin{center}
@@ -170,50 +167,52 @@ The greedy algorithm finds an optimal solution to {\sc BasicCellPhoneTyping}.
 \label{basicthm}
 \end{theorem}
 \begin{proof}
-We will assume, for simplicity of proof, that all letters occur a different number of times in the corpus.  
-We begin by comparing two assignments of letters to keys by, for each assignment,
-constructing a sequence of sets, or spectrum, $S$.  The set $S_1$ (layer 1) is the set of all
-letters which require a single button press (that is, they are the first
-letter in their sequence on their assigned key), $S_2$ (layer 2) is the set of
-all letters which require two button presses, and so on.  If two assignments
-have equal spectra, then one assignment may be transformed into
-the other assignment simply by swapping letter between keys without
-increasing or decreasing the total number of button pushes required to enter
-the corpus of words.   Two assignments are isomorphic iff their spectra are equal.
+We will assume, for simplicity of proof, that all letters occur a different
+number of times in the corpus.  We begin by comparing two assignments of
+letters to keys by, for each assignment, constructing a sequence of sets, or
+spectrum, $S$.  The set $S_1$ (layer 1) is the set of all letters which require
+a single button press (that is, they are the first letter in their sequence on
+their assigned key), $S_2$ (layer 2) is the set of all letters which require
+two button presses, and so on.  If two assignments have equal spectra, then one
+assignment may be transformed into the other assignment simply by swapping
+letter between keys without increasing or decreasing the total number of button
+pushes required to enter the corpus of words.   Two assignments are isomorphic
+iff their spectra are equal.
 
-Now assume for the sake of contradiction that we have assignment $D$, with spectrum $T$, that is not isomorphic to the greedy solution $G$ with spectrum $S$.
-Note that in spectrum resulting from the greedy algorithm, all letters at layer
-$i$ occur strictly more frequently than the letters at layer $j$, $j > i$.
-Also, in $S$, for all layers $i$ except for the last layer, $|S_i| = k$.
-Because $T$ and $S$ are not isomorphic, in $T$ there must be at least one layer $i$ such that $T_i \neq S_i$.  Let $T_i$ be the first layer for which that is true.
+Now assume for the sake of contradiction that we have assignment $D$, with
+spectrum $T$, that is not isomorphic to the greedy solution $G$ with spectrum
+$S$.  Note that in spectrum resulting from the greedy algorithm, all letters at
+layer $i$ occur strictly more frequently than the letters at layer $j$, $j >
+i$.  Also, in $S$, for all layers $i$ except for the last layer, $|S_i| = k$.
+Because $T$ and $S$ are not isomorphic, in $T$ there must be at least one layer
+$i$ such that $T_i \neq S_i$.  Let $T_i$ be the first layer for which that is
+true.
 
-There are two cases for layer $T_i$.  In the first case, $|T_i| < k$, and we may
-remove any element from a later layer place it in layer $T_i$ and create a strictly better layout.  In
-the second case, there is some letter $a$ such that $a \in T_i$ and $a \not\in
-S_i$.  We choose the least-frequent such $a$.  Because the greedy layout
-algorithm creates layers in order of frequency, we know that the frequency of
-$a$ is less than that of some letter $b$ in layer $T_j$, $j>i$.  Therefore, by
-creating a new layout with $a$ and $b$ swapped between $T_i$ and $T_j$, we have
-strictly decreased the number of button presses.  Therefore, in both cases,
-$T$ was not an optimal layout, and we have reached our contradiction.
-\qed
-\end{proof}
+There are two cases for layer $T_i$.  In the first case, $|T_i| < k$, and we
+may remove any element from a later layer place it in layer $T_i$ and create a
+strictly better layout.  In the second case, there is some letter $a$ such that
+$a \in T_i$ and $a \not\in S_i$.  We choose the least-frequent such $a$.
+Because the greedy layout algorithm creates layers in order of frequency, we
+know that the frequency of $a$ is less than that of some letter $b$ in layer
+$T_j$, $j>i$.  Therefore, by creating a new layout with $a$ and $b$ swapped
+between $T_i$ and $T_j$, we have strictly decreased the number of button
+presses.  Therefore, in both cases, $T$ was not an optimal layout, and we have
+reached our contradiction.  \qed \end{proof}
 
-For the BNC, the optimal layout has the spectrum 
-$$[\{etaoinsr\}, \{hldcumfp\}, \{gwybvkxj\}, \{qz\}]$$
-and any layout with that spectrum requires 638,276,114 button presses to
-entire the entire BNC instead of our original requirements of
-948,049,046.  This represents a savings of $32.67\%$ over our original
-layout, but only for the users who type using this most basic of
-input methods.  Unfortunately, this is the group of users who are likely
-the least adaptable to change, as almost all ``digital natives'' use 
-predictive methods to input text messages\footnote{I have no statistics
-on this except for an informal survey of one of my classes.  In that
-class, every student who used SMS either had a cellphone with a 26+
-key alphabetic keyboard or used a predictive method.}.  In order to place the
-least burden of ``newness'' on these users whilst still decreasing the number
-of button presses, we now consider schemes where the only alteration of the
-keyboard is the rearrangement of the sequence of letters for a given key.
+For the BNC, the optimal layout has the spectrum $$[\{etaoinsr\}, \{hldcumfp\},
+\{gwybvkxj\}, \{qz\}]$$ and any layout with that spectrum requires 638,276,114
+button presses to entire the entire BNC instead of our original requirements of
+948,049,046.  This represents a savings of $32.67\%$ over our original layout,
+but only for the users who type using this most basic of input methods.
+Unfortunately, this is the group of users who are likely the least adaptable to
+change, as almost all ``digital natives'' use predictive methods to input text
+messages\footnote{I have no statistics on this except for an informal survey of
+one of my classes.  In that class, every student who used SMS either had a
+cellphone with a 26+ key alphabetic keyboard or used a predictive method.}.  In
+order to place the least burden of ``newness'' on these users whilst still
+decreasing the number of button presses, we now consider schemes where the only
+alteration of the keyboard is the rearrangement of the sequence of letters for
+a given key.
 
 By an argument symmetric to the proof of Theorem~\ref{basicthm}, we find that
 the optimal layout in this new scheme is to place the letters of a given key in
@@ -244,13 +243,13 @@ that the user is most likely trying to enter and provide a completion.
 Unfortunately, because there are fewer keys on the cellphone keyboard than
 there are letters in the English alphabet, there are words which have different
 spellings but the same input sequence.  As an example, in the traditional
-mapping of keys to characters both ``me'' and ``of'' have the input sequence
-``63''.  Two words with the same input sequence force the user to press a third
-button to cycle through the possibilities in order from most likely (``of'') to
-least likely (``me'').  Even worse: ``home'', ``good'', ``gone'', ``hood'',
-``hoof'', ``hone'', and ``goof'' all have the input sequence ``4663''.  If
+mapping of keys to characters both `me' and `of' have the input sequence
+`63'.  Two words with the same input sequence force the user to press a third
+button to cycle through the possibilities in order from most likely (`of') to
+least likely (`me').  Even worse: `home', `good', `gone', `hood',
+`hoof', `hone', and `goof' all have the input sequence `4663'.  If
 the * key is used as the ``next match'' button, then the user will actually
-have to type in ``4663******'' to type in the word ``goof'', for a total of 10
+have to type in `4663******' to type in the word `goof', for a total of 10
 button presses --- exactly the same number of button presses required using the
 default layout and the basic input method, and three more button presses than
 is required when using the basic input method with an optimized layout.
@@ -270,48 +269,69 @@ MinimumT9Keystrokes} problem as:
 
 \begin{prob}[{\sc MinimumT9Keystrokes}]~\\
 \label{thm:minstrokes}
-\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, and a number of keys $k$ ($|A| > k$).
+\Instance\ An alphabet $A$, a set of words and their associated frequencies
+$W$, and a number of keys $k$ ($|A| > k$).
 
-\Question\ What is the partion $P$ of $A$ into $k$ sets which minimizes the total button presses required to enter the entire corpus using the T9 input method?
+\Question\ What is the partition $P$ of $A$ into $k$ sets which minimizes the
+total button presses required to enter the entire corpus using the T9 input
+method?
 \end{prob}
 
 and the corresponding decision problem is
 
 \begin{prob}~\\
-\Instance\ An alphabet $A$, a set of words and their associated frequencies $W$, a number of keys $k$ ($|A| > k$), and a number $t$.
+\label{minstrokesdecision}
+\Instance\ A set $A$, a set $W$ of sequences of elements of $A$, a mapping $f$ from sequences in $W$ to the integers, and a number $t$.
 
-\Question\ Is there a partition of $A$ into $k$ sets in which the total number of keystrokes required to enter the entire corpus using the T9 input method requires no more than $t$ button presses?
+\Question\ Is there a partition $P$ of $A$ into $k$ sets such that, if we denote $P(w)$ as the sequence of partitions $[p_i | w_i \in p_i, p_i \in P]$,
+$$\sum_{w\in W} (\mathrm{len}(w)+\mathrm{order}(w,P,W,f)) * f(w) \le t$$
+where len$(w)$ is the length of the sequence $w$ and order$(w,P,W,f)$ is the size of $\left\{s\in W | P(s) = P(w) \land f(s) > f(w)\right\}$, which is the set of sequences which map to the same sequence of partitions, but are strictly more popular.
 \end{prob}
 
 Note that this problem is in \NP, as any assignment may be verified to require
-fewer than $f$ button pushes in time proportional to the
-total length of all the words in $W$.  In order to prove completeness, however,
-we first prove the \NP-completeness of an intermediate problem: {\sc
-UniquePathColoring}.
+fewer than $f$ button pushes in time proportional to the total length of all
+the words in $W$.  In order to prove completeness, however, we first prove the
+\NP-completeness of an intermediate problem: {\sc UniquePathColoring}.
 
 \begin{prob}[{\sc UniquePathColoring}]~\\
 \label{upcolor}
-\Instance\ A graph $G=(V,E)$, a set of paths $P$, and a parameter $k$.  A path $p$ is a sequence of vertices in which adjacent vertices in $p$ are also adjacent in the edge set $E$.
+\Instance\ A graph $G=(V,E)$, a set of paths $P$, and a parameter $k$.  A path
+$p$ is a sequence of vertices in which adjacent vertices in $p$ are also
+adjacent in the edge set $E$.
 
-\Question\ Is there a $k$-coloring of $G$ such that every path $p\in P$ has a unique coloring?  If we consider the coloring function $\chi(v)$ to map vertices to colors, then we can extend this notation by having $\chi(p)$ map a path $p = [ v_1, v_2, \ldots ]$ to the sequence $\chi(p) = [ \chi(v_1), \chi(v_2), \ldots ]$.  Is there a coloring $\chi$ of $V$ such that 
+\Question\ Is there a $k$-coloring of $G$ such that every path $p\in P$ has a
+unique coloring?  If we consider the coloring function $\chi(v)$ to map
+vertices to colors, then we can extend this notation by having $\chi(p)$ map a
+path $p = [ v_1, v_2, \ldots ]$ to the sequence $\chi(p) = [ \chi(v_1),
+\chi(v_2), \ldots ]$.  Is there a coloring $\chi$ of $V$ such that 
     $$|\left\{ \chi(p)~\forall p \in P\right\}| = |P|\enspace ?$$
 \end{prob}
 
-\begin{proof}[{\sc UniquePathColoring} is \NP-complete]
-To prove that {\sc UniquePathColoring} is \NP-complete, we begin by noting that any coloring of $V$ may be verified, in polynomial time, to map each path to a unique sequence of colors.  Therefore, the problem is in \NP.  To prove completeness, we reduce from {\sc GraphColoring}\cite{gandj}.
+\begin{theorem}{\sc UniquePathColoring} is \NP-complete.\end{theorem}
+\begin{proof}
+To prove that {\sc UniquePathColoring} is \NP-complete, we begin by noting that
+any coloring of $V$ may be verified, in polynomial time, to map each path to a
+unique sequence of colors.  Therefore, the problem is in \NP.  To prove
+completeness, we reduce from {\sc GraphColoring}\cite{gandj}.
 
-An instance of {\sc GraphColoring } consists of a graph $G=(V,E)$ and a parameter $k$.  We then ask the question of whether there is a $k$-coloring $\chi$ of the vertices of the graph such that $\forall (u,v)\in E$, $\chi(u) \neq \chi(v)$.  We transform an instance of {\sc GraphColoring} into an instance of {\sc UniquePathColoring} in the following manner:
+An instance of {\sc GraphColoring } consists of a graph $G=(V,E)$ and a
+parameter $k$.  We then ask the question of whether there is a $k$-coloring
+$\chi$ of the vertices of the graph such that $\forall (u,v)\in E$, $\chi(u)
+\neq \chi(v)$.  We transform an instance of {\sc GraphColoring} into an
+instance of {\sc UniquePathColoring} in the following manner:
 
-Given $G=(V,E)$ and $k$ from {\sc GraphColoring}, we create 
-$$G'=\left(V \cup \{0,1\}, E \cup \{(0,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$
-We then uniquely number each edge in $E$ with the numbers $1 \ldots |E|$.  For each edge $e = (u,v)$ numbered $i$, we create the path set 
+Given $G=(V,E)$ and $k$ from {\sc GraphColoring}, we create $$G'=\left(V \cup
+\{0,1\}, E \cup \{(0,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$ We then
+uniquely number each edge in $E$ with the numbers $1 \ldots |E|$.  For each
+edge $e = (u,v)$ numbered $i$, we create the path set 
 \begin{eqnarray*}
 p_i &=& \{[v,0,b_1(i),b_2(i), b_3(i), \ldots b_{\lceil \log_2 i\rceil}], \\
     & &  ~[u, 0,b_1(i),b_2(i), b_3(i), \ldots b_{\lceil \log_2 i\rceil}]\} \\
 \end{eqnarray*}
-where $b_1(i)$ is the first digit of $i$ in binary, $b_2(i)$ is the second digit of $i$ in binary, and so on.  Now we create our path set 
-$$P = \{ [0,1], [1,0] \} \cup \bigcup_{i = 1}^{|E|} p_i \enspace .$$
-We then ask the question of whether $G'$ and $P$ can be unique-path colored using only $k$ colors.
+where $b_1(i)$ is the first digit of $i$ in binary, $b_2(i)$ is the second
+digit of $i$ in binary, and so on.  Now we create our path set $$P = \{ [0,1],
+[1,0] \} \cup \bigcup_{i = 1}^{|E|} p_i \enspace .$$ We then ask the question
+of whether $G'$ and $P$ can be unique-path colored using only $k$ colors.
 
 If there is a $k$-coloring $\chi$ of $G$, then we use that coloring to generate
 a $k$-unique-path coloring of $G'$ and $P$ in the following manner: First,
@@ -325,11 +345,28 @@ zeroes and ones.  Therefore, because $0$ and $1$ are assigned different colors,
 the only possible path that a given path in some $p_i$ might be confused with
 is the other path in that $p_i$.  But each $p_i$ corresponds to a an edge in
 $E$, and we know for all edges in $(u,v) \in E$ that $\chi(u) \neq \chi(v)$.
-Therefore, both paths within a given $p_i$ also have a distinct color sequence.  Therefore, given a $k$-coloring of $G$, we can generate a $k$-unique-path coloring of $G'$ and $P$.
+Therefore, both paths within a given $p_i$ also have a distinct color sequence.
+Therefore, given a $k$-coloring of $G$, we can generate a $k$-unique-path
+coloring of $G'$ and $P$.
 
-Now we prove that given a $k$-unique-path coloring of $G'$ and $P$ we can create a $k$-coloring of $G$.
-\qed
+Now we prove that given a $k$-unique-path coloring of $G'$ and $P$ we can
+create a $k$-coloring of $G$.  Given a $k$-unique path coloring, we are
+guaranteed that no path in $P$ has the exact same coloring as any other path in
+$P$.  This means that, for all $i$, the two paths in $p_i$ are distinct.  The
+only difference between the two paths in $p_i$ is in the first vertex of the
+path.  Therefore, for every $p_i$, the vertices of corresponding edge in must
+be given distinct colors, and this is true for all $i$ and $e \in E$.
+Therefore, for all $(u,v)\in E$, the color assigned to $u$ is distinct from the
+color assigned to $v$.  Therefore, from a $k$-unique-path coloring of $G'$ and
+$P$, we have a $k$-coloring of $G=(V,E)$.
+
+\qed 
 \end{proof}
+
+Now that we have proven {\sc UniquePathColoring} to be \NP-complete, we
+immediately use it in a reduction.  
+\begin{theorem}{\sc MinimumT9Keystrokes} (the decision problem form,
+Problem~\ref{minstrokesdecision}) is \NP-complete.  \end{theorem}
 
 However, our arbitrary remappings of the keyboard may be quickly deemed unusable.  Therefore, we define a refinement of the problem, in which the characters are required to be kept in alphabetical order as a sequence, and our only choices are about how to divide the subsequence into key assignments.  The default layout can be described as the partition $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to decide this, we define the problem {\sc MinimumKeystrokePartition} as:
 \begin{prob}[{\sc MinimumKeystrokePartition}]~\\
