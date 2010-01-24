@@ -26,11 +26,15 @@ Sending text messages on cell phones which only contain the keys 0-9 and \# and
 * can be a painful experience.  We consider the problem of designing an optimal
 mapping of numbers to sets of letters to act as an alternative to the standard
 $\{2\to\{abc\}, 3\to\{def\}\ldots\}$.  Our overall goal is to minimize the
-number of buttons that must be pressed to enter an aferage message in English.
-We prove that the problem in almost all of its variations is \NP\ hard, but
-describe several mappings which improve the standard one.  With luck, one of
-these new mappings will achieve success similar to that of the Dvorak layout
-for computer keyboards.
+expected number of buttons that must be pressed to enter a message in English.
+Some variations of the problem are efficiently solvable, either by being small
+instances or by being in \ensuremath{P}, but the most realistic version of the
+problem is \NP\ hard.  In order to prove \NP-completeness, we describe a new
+graph coloring problem {\sc UniquePathColoring}.  We also provide numerical
+results for the English language on a standard corpus which describe several
+mappings that improve upon the standard one.  With luck, one of these new
+mappings will achieve success similar to that of the Dvorak layout for computer
+keyboards.
 \end{abstract}
 
 Typing on a keyboard which has fewer keys than there are letters in the
@@ -96,7 +100,7 @@ Initially, we will completely neglect the pauses and concern ourselves solely
 with the number of keystrokes required.  This implies that `a' will always
 require one button press, `b' will always require two, and so on.  Thus, to get
 a baseline of how many keystrokes are required to enter the entirety of our
-corpus of words $W$, we count the total number of occurences of each letter,
+corpus of words $W$, we count the total number of occurrences of each letter,
 and multiply that number of occurrences by the number of button pushes
 required by that letter.  Running this on the British National Corpus
 using the standard cell phone keyboard layout, we find that entering the
@@ -149,7 +153,7 @@ minimizes $$\sum_{(w,f) \in W}\sum_{c\in w} \mathrm{IN}_P(c) * f$$
     keys $\gets$ a array of length $k$ where each element is an empty list\\
     \For $i \gets 0 \ldots length($ordered$)$\+\\
         (count, char) $\gets$ ordered$[i]$\\
-        append(char, keys$[i mod k]$)\-\\
+        append(char, keys$[i\mod k]$)\-\\
     \Return keys
 \end{algorithm}
 \caption{The greedy algorithm for Prob.~\ref{bcpt}.}
@@ -209,7 +213,7 @@ change, as almost all ``digital natives'' use predictive methods to input text
 messages\footnote{I have no statistics on this except for an informal survey of
 one of my classes.  In that class, every student who used SMS either had a
 cellphone with a 26+ key alphabetic keyboard or used a predictive method.}.  In
-order to place the least burden of ``newness'' on these users whilst still
+order to place the least burden of ``newness'' on these users while still
 decreasing the number of button presses, we now consider schemes where the only
 alteration of the keyboard is the rearrangement of the sequence of letters for
 a given key.
@@ -238,7 +242,7 @@ In an effort to minimize the pain of cellphone keyboard typing, cellular
 telephone manufacturers have created the T9 input method, which attempts to
 guess which letter (of the 3 or 4 possible) is intended when a user hits a
 single key.  Enhancements of this input method also provide
-\newword{speculative lookahead} to report, at any given time, what word it is
+speculative lookahead to report, at any given time, what word it is
 that the user is most likely trying to enter and provide a completion.
 Unfortunately, because there are fewer keys on the cellphone keyboard than
 there are letters in the English alphabet, there are words which have different
@@ -256,11 +260,11 @@ is required when using the basic input method with an optimized layout.
 
 When two words have the same input sequence (neglecting the *'s at the end)
 then these words are \newword{t9onyms}.  When two or more words are t9onyms,
-then the less-popular words require extra keypresses, raising the expected
-number of keypresses to type in our corpus.  In order to type a given word, one
+then the less-popular words require extra key presses, raising the expected
+number of key presses to type in our corpus.  In order to type a given word, one
 must press one button for every character in the word, followed by pressing
 the * key as many times as there are t9onyms which are more likely than the
-desired wored.  Because typing on a cellphone keyboard is already an unpleasant
+desired word.  Because typing on a cellphone keyboard is already an unpleasant
 experience, we would like to minimize the expected number of keystrokes.  The
 number of keystrokes a word requires is equal to the number of letters in the
 word, plus the number of t9onyms which are more frequent than the word.
@@ -285,11 +289,11 @@ and the corresponding decision problem is
 
 \Question\ Is there a partition $P$ of $A$ into $k$ sets such that, if we denote $P(w)$ as the sequence of partitions $[p_i | w_i \in p_i, p_i \in P]$,
 $$\sum_{w\in W} (\mathrm{len}(w)+\mathrm{order}(w,P,W,f)) * f(w) \le t$$
-where len$(w)$ is the length of the sequence $w$ and order$(w,P,W,f)$ is the size of $\left\{s\in W | P(s) = P(w) \land f(s) > f(w)\right\}$, which is the set of sequences which map to the same sequence of partitions, but are strictly more popular.
+where len$(w)$ is the length of the sequence $w$ and order$(w,P,W,f)$ is the size of $\left\{s\in W | P(s) = P(w) \land f(s) \le f(w) \land s < w \right\}$, which is the set of sequences which map to the same sequence of partitions, but are not more popular, and are lexicographically smaller than $w$.
 \end{prob}
 
 Note that this problem is in \NP, as any assignment may be verified to require
-fewer than $f$ button pushes in time proportional to the total length of all
+fewer than $t$ button pushes in time proportional to the total length of all
 the words in $W$.  In order to prove completeness, however, we first prove the
 \NP-completeness of an intermediate problem: {\sc UniquePathColoring}.
 
@@ -363,12 +367,72 @@ $P$, we have a $k$-coloring of $G=(V,E)$.
 \qed 
 \end{proof}
 
+Note that this proof implies not just that {\sc UniquePathColoring} is \NP-complete, but that it is \NP-complete eve when we restrict ourself to just 3 colors, because the number of colors in the {\sc UniquePathColoring} is exactly equal to the number of colors in the instance of {\sc GraphColoring}, and 3-coloring a graph is an \NP-complete problem\cite{3color}.
+
 Now that we have proven {\sc UniquePathColoring} to be \NP-complete, we
 immediately use it in a reduction.  
-\begin{theorem}{\sc MinimumT9Keystrokes} (the decision problem form,
+\begin{theorem}{\sc MinimumT9Keystrokes} (as specified in
 Problem~\ref{minstrokesdecision}) is \NP-complete.  \end{theorem}
 
-However, our arbitrary remappings of the keyboard may be quickly deemed unusable.  Therefore, we define a refinement of the problem, in which the characters are required to be kept in alphabetical order as a sequence, and our only choices are about how to divide the subsequence into key assignments.  The default layout can be described as the partition $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to decide this, we define the problem {\sc MinimumKeystrokePartition} as:
+\begin{proof}
+As we noted on page~\pageref{minstrokesdecision}, {\sc MinimumT9Keystrokes} is
+in \NP.  To prove completeness, we reduce from {\sc UniquePathColoring}.  An
+instance of {\sc UniquePathColoring} consists of a graph $G=(V,E)$, a set of
+paths $P$, and a parameter $k$.  We then ask the question of whether there is a
+vertex coloring of $G$ using $k$ colors such that each path in $P$ ends up with
+a unique sequence of colors.
+
+We transform an instance of {\sc UniquePathColoring} into an instance of {\sc
+MinimumT9Keystrokes} in the following way:  We make $A$ be the set of vertices
+$V$, and we make $W$ be the set of paths $P$, and we assign each of these new
+`words' a frequency of 1.  We then ask the question of whether there exists a
+partition of $A$ into $k$ sets such that the total number of button presses
+required is no greater than $t=\sum_{w\in W} \mathrm{len}(w)$.
+
+Now we prove that if there is a {\sc UniquePathColoring} using $k$ colors, then
+there exists a solution to the corresponding instance of {\sc
+MinimumT9Keystrokes}.  In particular, a $k$-unique-path coloring if $G$ give us
+a partition of the vertices $V$ into $k$ sets.  We map each set to a single key
+in our solution to {\sc MinimumT9Keystrokes}.  Because each path has a unique
+coloring, each word in the corresponding {\sc MinimumT9Keystrokes} has a unique
+pattern of button presses.  Therefore, the number of more popular words with
+the same keystrokes as a given word is exactly zero.  Thus, because each word
+in the corpus has a frequency of one, to type in the entire corpus only
+requires exactly as many keystrokes as there are words in the corpus, and
+therefore, the $k$ unique path coloring of $V$ corresponds exactly to an
+assignment of letters to keys such that the total number of keystrokes is
+exactly $\sum_{w\in W} \mathrm{len}(w)$, which is exactly $t$.
+
+Next, we prove that a solution to the {\sc MinimumT9Keystrokes} problem
+instance implies a solution to the corresponding {\sc UniquePathColoring}
+problem.  If there exists a partition of $A$ into $k$ partitions such that
+$$\sum_{w\in W} (\mathrm{len}(w)+\mathrm{order}(w,P,W,f))*f(w) \le t =
+\sum_{w\in W} \mathrm{len}(w)$$ then, because $f(w) = 1$, $ \forall w \in W$,
+it must be true that $\mathrm{order}(w,P,W,f) = 0$,  $\forall w \in W$.
+Therefore, every word $w \in W$ has a unique sequence of button presses if we
+partition $A$ into $k$ partitions according to $P$.  To generate our
+$k$-unique-path coloring of $G$, we color each set in $P$ a single unique
+color.  Because each word in $w$ has a unique sequence of partitions, each path
+has a unique coloring, and therefore we can color the corresponding instance of
+$G$ using $k$ colors.  Thus, a partition of $V$ into $k$ partitions which allows the corpus to be entered in less than $t$ keystrokes implies a $k$-unique path coloring of $G$.  Therefore, because {\sc UniquePathColoring} can be reduced to {\sc MinimumT9Keystrokes} and is in \NP, {\sc MinimumT9Keystrokes} is \NP-complete.
+\qed
+\end{proof}
+
+Again we note that this proof of \NP-completeness is of a relatively strong form: just like {\sc UniquePathColoring}, our problem remains \NP-complete even if we restrict ourselves to $k=3$ (only 3 buttons on the cell phone keyboard).
+
+Because our problem is \NP-complete, we will not try to find a general solution.  In our specific instance, with 26 letters and an eight key keyboard (1 and 0 are reserved for other uses),  we must choose the best layout from among $$\binom{26}{8} \binom{18}{8} \binom{10}{8} = 3,076,291,325,250$$ different possibilities.  Given that, currently, it takes around a tenth of a second to count the number of button presses required to enter the BNC, an exhaustive search will take 307,629,132,525 seconds, or 9.75 millennia.  Therefore, we have two remaining avenues of attack: find the best answer possible using stochastic methods, or solving a simpler problem.  Using stochastic methods (a simple genetic algorithm), the best layout we found was 
+$$\{\{eb\}, \{lcd\}, \{sh\}, \{zmx\}, \{fayg\}, \{toj\}, \{unpv\}, \{irkwq\}\}$$
+which required 441,612,049 button presses to enter the entire corpus.   As compared to the requirements of the default layout (443,374,079), this represents a savings of less than 1\%, and is thus not a very attractive alternative to existing layouts.  This low amount of improvement, while not good news for our proposed reordering, is excellent news for all current cell phone users: cell phone keyboard layout seem relatively efficient for T9 text entry!
+
+\subsection{Alphabetic Order}
+
+Our arbitrary remappings of the keyboard may be quickly deemed
+unusable, simply because it is almost impossible to tell where a given key is located without memorizing the entire new layout.  Therefore, we define a refinement of the keyboard layout problem, in which the
+characters are required to be kept in alphabetical order as a sequence, and our
+only choices are about how to divide the subsequence into key assignments.  The
+default layout can be described as the partition
+$abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to
+decide this, we define the problem {\sc MinimumKeystrokePartition} as:
 \begin{prob}[{\sc MinimumKeystrokePartition}]~\\
 \label{thm:minpartition}
 \Instance\ A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, and a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$).
@@ -376,18 +440,19 @@ However, our arbitrary remappings of the keyboard may be quickly deemed unusable
 \Question\ What is the mapping $f$ of $A \to K$ which minimizes the expected number of characters to type a word from $W$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then either $f(a_{i+1}) = k$ or $f(a_{i+1}) = k+1$?
 \end{prob}
 
-As before, the corresponding decision problem is
-\begin{prob}~\\
-\Instance\ A sequence of letters $A = \{a_1, a_2, \ldots \}$, a set of words and their associated probabilities $W$, a set of keys $K = \{2, 3, 4, \ldots \}$ ($|A| > |K|$), and a parameter $e$.
+The number of partitions of a sequence of size $n$ into $k$ subsequences is equal to $\binom{n-1}{k-1}$, and in the particular case of the 26 letter alphabet and the eight keys available on a cell phone keyboard, we find that there are $\binom{26-1}{8-1} = 480,700$ possible sequences.  This means that, in the case of our corpus which requires tenths of a second to test against a proposed solution, we can test every possible sequence in just 480,700 seconds.  Therefore, our final result comes from simply generating and testing every single partition of the alphabet into 8 sets.  We found that the best partition was 
+$$\{\{ab\}, \{cde\}, \{fghij\}, \{klm\}, \{nop\}, \{qrs\}, \{t\}, \{uvwxyz\}\}$$
+which required 442,717,436 button presses, yet again for a savings of less than 1\% over the default layout.
 
-\Question\ Is there a mapping $f$ of $A \to K$ in which the expected number of characters to type a word from $W$ is less than $e$, and where $f(a_1) = 2$ and if $f(a_i) = k$, then $f(a_{i+1}) \in \{k, k+1\}$?
-\end{prob}
+\section{Conclusion}
 
-Again, we note that this decision problem is in \NP, as any proposed partition may be verified, in polynomial time, to have an expected value less than $e$.
+In this paper, we have developed three problems based on the idea of making cell phone keyboard more efficient for typing text messages.  Different text entry methods yield problems with very different levels of solvability.  If we restrict ourselves to the basic text entry method, then a greedy algorithm will work for finding the optimal layout.  As a matter of fact, the greedy algorithm works whether we want to restrict ourselves to rearranging the order of letters on a single key, or to rearranging all letters on all keys.  On the other hand, if we try to optimize against the more complex T9 input method, then we find that the problem is \NP-complete.  After proving completeness, we gave numerical results which indicate that it will be difficult (or perhaps impossible) to significantly improve on the default layout of letters.  This stands in sharp contrast to the simpler input method, which we were able to improve by more than 27\% just by reordering the letters on the keys, but never moving a letter from one key to another.
 
-\section{Exhaustive Search}
+We have also discovered a new \NP-complete problem {\sc UniquePathColoring}, which may be of use in other contexts.  In particular, it is rare in the literature to find an \NP-complete problem that contains both partitions and sequences, which is why we had to invent a new one here.  The hope, as always, is that this problem will prove useful to others.
 
-Because our problems are \NP-hard, we move on to combinatorial enumeration and experimental results.  The number of partitions of a sequence of size $n$ into $k$ subsequences is equal to $\binom{n-1}{k-1}$, and in the particular case of the 26 letter alphabet and the eight keys available on a cell phone keyboard, we find that there are $\binom{26-1}{8-1} = 480,700$ possible sequences.
+We left as future work any exploration of the issue of needing to pause between
+letters in the basic typing method, and while there do exist even more
+sophisticated input methods, we have left them unmentioned and unexamined.  Optimizing a keyboard for typing in the basic text method was relatively straightforward, but, in the T9 input method, optimally using a cell phone keyboard is \NP hard.
 
 \bibliographystyle{abbrv}
 \bibliography{bibliography}
