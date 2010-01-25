@@ -1,0 +1,20 @@
+Sending text messages on cell phones which only contain the keys 0-9 and \# and
+* can be a painful experience.  We consider the problem of designing an optimal
+mapping of numbers to sets of letters to act as an alternative to the standard
+$\{2\to\{abc\}, 3\to\{def\}\ldots\}$.  Our overall goal is to minimize the
+expected number of buttons that must be pressed to enter a message in English.
+Some variations of the problem are efficiently solvable, either by being small
+instances or by being in \ensuremath{P}, but the most realistic version of the
+problem is \NP\ hard.  In order to prove \NP-completeness, we describe a new
+graph coloring problem {\sc UniquePathColoring}.  We also provide numerical
+results for the English language on a standard corpus which describe several
+mappings that improve upon the standard one.  With luck, one of these new
+mappings will achieve success similar to that of the Dvorak layout for computer
+keyboards.
+
+This also includes the code required to get our numeric results.
+  make all
+will make the article.pdf and compile all the .cpp files 
+  make data
+will generate all the data files (this make take several days, and I recommend
+make -j data in order to use all your cores)
