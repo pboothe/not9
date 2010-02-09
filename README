@@ -18,3 +18,5 @@ will make the article.pdf and compile all the .cpp files
   make data
 will generate all the data files (this make take several days, and I recommend
 make -j data in order to use all your cores)
+
+Currently under submission
