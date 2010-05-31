@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{salgorithm}
+\usepackage{verbatim}
 
 \newcommand{\newword}[1]{{\bf #1}}
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
@@ -39,12 +40,10 @@ keyboards.
 
 Typing on a keyboard which has fewer keys than there are letters in the
 alphabet can be a painful task.  There are a plethora of input schemes which
-attempt to make this task easier, but the one thing they have in common is
+attempt to make this task easier (e.g. \cite{hcimethods,ordering1,godfest} and many more), but the one thing they have in common is
 that all of these input methods use the standard mapping of numeric keys to
 alphabetic numbers of 
-$\{2\to\{abc\},
-         3\to\{def\}, 4\to\{ghi\}, 5\to\{jkl\}, 6\to\{mno\}, 7\to\{pqrs\},
-         8\to\{tuv\}, 9\to\{wxyz\}\}$.
+$\{2\to\{abc\}, 3\to\{def\}, 4\to\{ghi\}, 5\to\{jkl\}, 6\to\{mno\}, 7\to\{pqrs\}, 8\to\{tuv\}, 9\to\{wxyz\}\}$.
 We will consider schemes of rearranging the numbers on the keys to
 make messages easier to type.  Most variants of this problem turn out to be
 NP-hard, unfortunately.
@@ -67,24 +66,24 @@ $$\sum_{(w,f)\in W} f*\mathrm{IN}(w,P)$$
 \end{prob}
 
 
-Here, we consider three different real-world schemes
-for $\mathrm{IN}$ (basic typing, T9, and predictive T9), and for each variant
-that is proven \NP-hard, we consider the restriction on $P$ that requires that
-we keep the alphabet in alphabetical order.  In all cases where it is
-computationally feasible we provide results for the case of the English
-language, on 8-key keyboards, using the British National Corpus\cite{bnc}
-(BNC).  One feature of note is that no matter what scheme we use, the problem
-is trivial if the number of keys is not smaller than the number of letters in
-the alphabet ($k \ge |A|$).  Using tiny keyboards is only (computationally)
-difficult when the keyboards do not have enough keys.
+We will consider two different real-world schemes for $\mathrm{IN}$ (basic
+typing and T9), and for each variant or sub-variant that is proven \NP-hard, we
+consider the restriction on $P$ that requires that we keep the alphabet in
+alphabetical order.  In all cases where it is computationally feasible we
+provide results for the case of the English language, on 8-key keyboards, using
+the British National Corpus\cite{bnc} (BNC).  One feature of note is that no
+matter what scheme we use, the problem is trivial if the number of keys is not
+smaller than the number of letters in the alphabet ($k \ge |A|$).  Using tiny
+keyboards is only (computationally) difficult when the keyboards do not have
+enough keys.
 
 \section{Setting a Baseline with the Easiest Problem}
 
-The baseline we compare against is the most painful method of text entry.  In this
-method, to type an `a', the user of the cellphone types the `2' key; to type a
-`b' they type `22', to type `c' they type `222', to type a `d' they type `3',
-to type an `e' they type `33', and so on.  To type a word with multiple letters
-that use the same key, such as `accept', the user must pause between
+The baseline we compare against is the most painful method of text entry.  In
+this method, to type an `a', the user of the cellphone types the `2' key; to
+type a `b' they type `22', to type `c' they type `222', to type a `d' they type
+`3', to type an `e' they type `33', and so on.  To type a word with multiple
+letters that use the same key, such as `accept', the user must pause between
 keystrokes.  Thus, the full key entry sequence for `accept', using `.' to
 indicate a pause, is `2.22.223378'.
 
@@ -92,26 +91,26 @@ indicate a pause, is `2.22.223378'.
 \begin{center}
 \includegraphics[width=2in]{phonekeys.jpg}
 \end{center}
-\caption{A cell phone keyboard}
+\caption{A cell phone keyboard. Each key is mapped to a letter sequence: $2 \to (abc), 3\to (def), 4\to (ghi), 5\to (jkl), 6 \to (mno), 7 \to (pqrs), 8\to (tuv), 9\to (wxyz) $}
 \label{keypic}
 \end{figure}
 
-Initially, we will completely neglect the pauses and concern ourselves solely
-with the number of keystrokes required.  This implies that `a' will always
+We will neglect the pauses and concern ourselves solely with the number of
+keystrokes required.  This layout and input method imply that `a' will always
 require one button press, `b' will always require two, and so on.  Thus, to get
 a baseline of how many keystrokes are required to enter the entirety of our
 corpus of words $W$, we count the total number of occurrences of each letter,
-and multiply that number of occurrences by the number of button pushes
-required by that letter.  Running this on the British National Corpus
-using the standard cell phone keyboard layout, we find that entering the
-entirety of the 100,106,029 word occurrences in the corpus would require
-948,049,046 button presses.  
+and multiply that number of occurrences by the number of button pushes required
+by that letter.  Running this on the British National Corpus using the standard
+cell phone keyboard layout, we find that entering the entirety of the
+100,106,029 word occurrences in the corpus would require 948,049,046 button
+presses.  
 
 If we examine a cell phone keyboard (Fig.~\ref{keypic}) then we observe some terrible design choices.  The frequently-occurring letters
 'r' and 's' require more keystrokes than 'q'!  Surely, a better designed
 keyboard can do better than this.  If we just reversed the order of the letters
 on the 7 key, from `pqrs' to `srqp', the number of button presses required
-would drop to 865,118,331 --- a savings of more than $8.7\%$!  If we assume
+would drop to 865,118,331 --- a savings of more than $8.7\%$.  If we assume
 that every button press takes an equal amount of time, then this corresponds
 the users spending $8.7\%$ less time entering their text messages.  In an
 effort to discover how great these savings can be, we define the problem {\sc
@@ -226,14 +225,14 @@ This layout represents a $28.43\%$ savings, and it has the added benefit that
 it does not change which key is mapped to which set of letters.  This makes it
 \newword{legacy preserving}, as creating a keyboard with this layout will not
 invalidate such advertising gems as 1-800-FLOWERS.  Thus, we can speed up users
-by $28.43\%$ (neglecting inter-letter pauses) and not undermine 50 years of
-advertising.  This layout represents perhaps the most plausible layout
-yet\footnote{The described layout is the only legacy preserving layout in this
-paper, and therefore should be considered the most practical suggestion.  It
-also has the added benefit of not angering any of the organizations behind the
-numbers 1-800-FLOWERS, 1-800-THRIFTY, and 1-800-MARINES}.  After setting up
-this baseline for the easy problem, we turn our attention to optimizing
-cellphone keyboards for predictive input methods.
+by $28.43\%$ (neglecting inter-letter pauses) and not undermine more than half
+a century of advertising.  This layout represents perhaps the most plausible
+layout yet\footnote{The described layout is the only legacy preserving layout
+in this paper, and therefore should be considered the most practical
+suggestion.  It also has the added benefit of not angering any of the
+organizations behind the numbers 1-800-FLOWERS, 1-800-THRIFTY, and
+1-800-MARINES}.  After setting up this baseline for the easy problem, we turn
+our attention to optimizing cellphone keyboards for predictive input methods.
 
 \section{The T9 Input Method}
 
@@ -324,7 +323,7 @@ $\chi$ of the vertices of the graph such that $\forall (u,v)\in E$, $\chi(u)
 instance of {\sc UniquePathColoring} in the following manner:
 
 Given $G=(V,E)$ and $k$ from {\sc GraphColoring}, we create $$G'=\left(V \cup
-\{0,1\}, E \cup \{(0,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$ We then
+\{0,1\}, E \cup \{(0,1), (1,0), (0,0), (1,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$ We then
 uniquely number each edge in $E$ with the numbers $1 \ldots |E|$.  For each
 edge $e = (u,v)$ numbered $i$, we create the path set 
 \begin{eqnarray*}
@@ -421,15 +420,17 @@ This proof of \NP-completeness is of a relatively strong form: just like {\sc Un
 
 Because our problem is \NP-complete, we will not try to find a general solution.  In our specific instance, with 26 letters and an eight key keyboard (1 and 0 are reserved for other uses),  we must choose the best layout from among $$\binom{26}{8} \binom{18}{8} \binom{10}{8} = 3,076,291,325,250$$ different possibilities.  Given that, currently, it takes around a tenth of a second to count the button presses required to enter the BNC, an exhaustive search will take 307,629,132,525 seconds, or 9.75 millennia.  Therefore, we have two remaining avenues of attack: find the best answer possible using stochastic methods, or solving a simpler problem.  Using stochastic methods (a simple genetic algorithm), the best layout we found was 
 $$\{\{eb\}, \{lcd\}, \{sh\}, \{zmx\}, \{fayg\}, \{toj\}, \{unpv\}, \{irkwq\}\}$$
-which required 441,612,049 button presses to enter the entire corpus.   As compared to the requirements of the default layout (443,374,079), this represents a savings of less than 1\%, and is thus not a very attractive alternative to existing layouts.  This low amount of improvement, while not good news for our proposed reordering, is excellent news for all current cell phone users: cell phone keyboard layout seem relatively efficient for T9 text entry!
+which required 441,612,049 button presses to enter the entire corpus.  Our genetic algorithm was quite simple: From an initial gene pool of random layouts, we discarded all but the best layouts (the survivors).  Then, we added to the gene pool random mutations of the survivors to fill out the gene pool back to its original size, and repeated the process of selection and mutation for some time.  As compared to the requirements of the default layout (443,374,079), this represents a savings of less than 1\%, and is thus not a very attractive alternative to existing layouts.  This low amount of improvement, while not good news for our proposed reordering, is excellent news for all current cell phone users: the default cell phone keyboard layout seems relatively efficient for T9 text entry in English!
 
 \subsection{Alphabetic Order}
 
-Our arbitrary remappings of the keyboard may be quickly deemed
-unusable, simply because it is almost impossible to tell where a given key is located without memorizing the entire new layout.  Therefore, we define a refinement of the keyboard layout problem, in which the
-characters are required to be kept in alphabetical order as a sequence, and our
-only choices are about how to divide the subsequence into key assignments.  The
-default layout can be described as the partition
+Our arbitrary remappings of the keyboard may be quickly deemed unusable, simply
+because it is almost impossible to tell where a given key is located without
+memorizing the entire new layout.  Therefore, we define a refinement of the
+keyboard layout problem, in which the characters are required to be kept in
+alphabetical order as a sequence, and our only choices are about how to divide
+the subsequence into key assignments.  The default layout can be described as
+the partition
 $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  To
 decide this, we define the problem {\sc MinimumKeystrokePartition} as:
 \begin{prob}[{\sc MinimumKeystrokePartition}]~\\
@@ -451,8 +452,20 @@ We have also discovered a new \NP-complete problem {\sc UniquePathColoring}, whi
 
 We left as future work any exploration of the issue of needing to pause between
 letters in the basic typing method, and, while there do exist even more
-sophisticated input methods\cite{hcimethods}, we have left them unmentioned and unexamined.  Optimizing a keyboard for the basic text input method was relatively straightforward, but, for the T9 input method, optimally using a cell phone keyboard is \NP hard.
+sophisticated input methods\cite{hcimethods}, we have left them unmentioned and unexamined.  Optimizing a keyboard for the basic text input method was relatively straightforward, but, for the T9 input method, optimally using a cell phone keyboard is \NP\ hard.
 
 \bibliographystyle{abbrv}
 \bibliography{bibliography}
+
+\newpage
+\appendix
+\section{A Genetic Algorithm for Discovering Efficient T9 Layouts}
+{\tiny
+\verbatiminput{genetic.cpp}
+}
+
+\section{Code for Analyzing All Alphabetic-Order T9 Layouts}
+{\tiny
+\verbatiminput{notrcount.cpp}
+}
 \end{document}

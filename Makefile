@@ -13,7 +13,7 @@ basicreorder: basicreorder.cpp
 genetic: genetic.cpp
 	g++ -o $@ -O3 $<
 
-article.pdf: *.tex
+article.pdf: *.tex bibliography.bib
 	pdflatex article
 	bibtex article
 	pdflatex article
