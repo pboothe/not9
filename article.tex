@@ -4,10 +4,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{salgorithm}
-<<<<<<< HEAD
 \usepackage{verbatim}
-=======
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 
 \newcommand{\newword}[1]{{\bf #1}}
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
@@ -26,7 +23,6 @@
 \maketitle
 
 \begin{abstract}
-<<<<<<< HEAD
 Sending text messages on cell phones which only contain the keys 0 through 9
 and \# and * can be a painful experience.  We consider the problem of designing
 an optimal mapping of numbers to sets of letters to act as an alternative to
@@ -36,17 +32,6 @@ in English.  Some variations of the problem are efficiently solvable, either by
 being small instances or by being in \ensuremath{P}, but the most realistic
 version of the problem is \NP\ hard.  To prove \NP-completeness, we describe a
 new graph coloring problem {\sc UniquePathColoring}.  We also provide numerical
-=======
-Sending text messages on cell phones which only contain the keys 0-9 and \# and
-* can be a painful experience.  We consider the problem of designing an optimal
-mapping of numbers to sets of letters to act as an alternative to the standard
-$\{2\to\{abc\}, 3\to\{def\}\ldots\}$.  Our overall goal is to minimize the
-expected number of buttons that must be pressed to enter a message in English.
-Some variations of the problem are efficiently solvable, either by being small
-instances or by being in \ensuremath{P}, but the most realistic version of the
-problem is \NP\ hard.  In order to prove \NP-completeness, we describe a new
-graph coloring problem {\sc UniquePathColoring}.  We also provide numerical
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 results for the English language on a standard corpus which describe several
 mappings that improve upon the standard one.  With luck, one of these new
 mappings will achieve success similar to that of the Dvorak layout for computer
@@ -55,38 +40,20 @@ keyboards.
 
 Typing on a keyboard which has fewer keys than there are letters in the
 alphabet can be a painful task.  There are a plethora of input schemes which
-<<<<<<< HEAD
 attempt to make this task easier (e.g. \cite{hcimethods,ordering1,godfest} and many more), but the one thing they have in common is
 that all of these input methods use the standard mapping of numeric keys to
 alphabetic numbers of 
 $\{2\to\{abc\}, 3\to\{def\}, 4\to\{ghi\}, 5\to\{jkl\}, 6\to\{mno\}, 7\to\{pqrs\}, 8\to\{tuv\}, 9\to\{wxyz\}\}$.
 We will consider schemes of rearranging the numbers on the keys to
-=======
-attempt to make this task easier, but the one thing they all have in common is
-that all of these input methods use the standard mapping of numeric keys to
-alphabetic numbers of 
-$\{2\to\{abc\},
-         3\to\{def\}, 4\to\{ghi\}, 5\to\{jkl\}, 6\to\{mno\}, 7\to\{pqrs\},
-         8\to\{tuv\}, 9\to\{wxyz\}\}$.
-In this paper, we consider schemes of rearranging the numbers on the keys to
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 make messages easier to type.  Most variants of this problem turn out to be
 NP-hard, unfortunately.
 
 Before we get any farther, let us sketch the basic problem that we will keep
-<<<<<<< HEAD
 revising and revisiting.  \begin{prob}[{\sc
 MinimumKeystrokes}]~\\ \Instance\ A set of letters corresponding to an alphabet
 $A$ $(|A| = n)$, a number of keys $k$, an input method $\mathrm{IN}$, and a set
 of tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
 and the words are made up of solely of elements of $A$.  We will treat $\mathrm{IN}$ as
-=======
-revising and revisiting throughout this paper.  \begin{prob}[{\sc
-MinimumKeystrokes}]~\\ \Instance\ A set of letters corresponding to an alphabet
-$A$ $(|A| = n)$, a number of keys $k$, an input method $\mathrm{IN}$, and a set
-of tuples of words and frequencies $W$.  The frequencies in $W$ are integers,
-and the words are made up of solely of elements of $A$.  We will treat $IN$ as
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 a function which, given a partition of $A$ and a word $w$, returns how many
 keystrokes are required to type $w$.
 
@@ -99,7 +66,6 @@ $$\sum_{(w,f)\in W} f*\mathrm{IN}(w,P)$$
 \end{prob}
 
 
-<<<<<<< HEAD
 We will consider two different real-world schemes for $\mathrm{IN}$ (basic
 typing and T9), and for each variant or sub-variant that is proven \NP-hard, we
 consider the restriction on $P$ that requires that we keep the alphabet in
@@ -118,26 +84,6 @@ this method, to type an `a', the user of the cellphone types the `2' key; to
 type a `b' they type `22', to type `c' they type `222', to type a `d' they type
 `3', to type an `e' they type `33', and so on.  To type a word with multiple
 letters that use the same key, such as `accept', the user must pause between
-=======
-Over the course of this paper we consider three different real-world schemes
-for $\mathrm{IN}$ (basic typing, T9, and predictive T9), and for each variant
-that is proven \NP-hard, we consider the restriction on $P$ that requires that
-we keep the alphabet in alphabetical order.  In all cases where it is
-computationally feasible we provide results for the case of the English
-language, on 8-key keyboards, using the British National Corpus\cite{bnc}
-(BNC).  One feature of note is that no matter what scheme we use, the problem
-is trivial if the number of keys is not smaller than the number of letters in
-the alphabet ($k \ge |A|$).  Using tiny keyboards is only (computationally)
-difficult when the keyboards don't have enough keys.
-
-\section{Setting a Baseline with the Easiest Problem}
-
-The baseline we compare against is the most painful method of text entry.  In this
-method, to type an `a', the user of the cellphone types the `2' key; to type a
-`b' they type `22', to type `c' they type `222', to type a `d' they type `3',
-to type an `e' they type `33', and so on.  To type a word with multiple letters
-that use the same key, such as `accept', the user must pause between
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 keystrokes.  Thus, the full key entry sequence for `accept', using `.' to
 indicate a pause, is `2.22.223378'.
 
@@ -145,7 +91,6 @@ indicate a pause, is `2.22.223378'.
 \begin{center}
 \includegraphics[width=2in]{phonekeys.jpg}
 \end{center}
-<<<<<<< HEAD
 \caption{A cell phone keyboard. Each key is mapped to a letter sequence: $2 \to (abc), 3\to (def), 4\to (ghi), 5\to (jkl), 6 \to (mno), 7 \to (pqrs), 8\to (tuv), 9\to (wxyz) $}
 \label{keypic}
 \end{figure}
@@ -169,32 +114,6 @@ would drop to 865,118,331 --- a savings of more than $8.7\%$.  If we assume
 that every button press takes an equal amount of time, then this corresponds
 the users spending $8.7\%$ less time entering their text messages.  In an
 effort to discover how great these savings can be, we define the problem {\sc
-=======
-\caption{A cell phone keyboard}
-\label{keypic}
-\end{figure}
-
-Initially, we will completely neglect the pauses and concern ourselves solely
-with the number of keystrokes required.  This implies that `a' will always
-require one button press, `b' will always require two, and so on.  Thus, to get
-a baseline of how many keystrokes are required to enter the entirety of our
-corpus of words $W$, we count the total number of occurrences of each letter,
-and multiply that number of occurrences by the number of button pushes
-required by that letter.  Running this on the British National Corpus
-using the standard cell phone keyboard layout, we find that entering the
-entirety of the 100,106,029 word occurrences in the corpus would require
-948,049,046 button presses.  
-
-If we examine a cell phone keyboard (Fig.~\ref{keypic}) then we can see that
-there are some terrible choices being made.  The frequently-occurring letters
-'r' and 's' require more keystrokes than 'q'!  Surely, a better designed
-keyboard can do better than this.  If we just reversed the order of the letters
-on the 7 key, from `pqrs' to `srqp', the number of button presses required
-would drop to 865,118,331 --- a savings of more than $8.7\%$!  If we assume
-that every button press takes an equal amount of time, then this corresponds
-the users spending $8.7\%$ less time entering their text messages.  In an
-effort to find out how low this can go, we define the problem {\sc
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 BasicCellPhoneTyping} based on the template problem on
 page~\pageref{probtemplate}.
 
@@ -264,11 +183,7 @@ iff their spectra are equal.
 
 Now assume for the sake of contradiction that we have assignment $D$, with
 spectrum $T$, that is not isomorphic to the greedy solution $G$ with spectrum
-<<<<<<< HEAD
 $S$.  In a spectrum resulting from the greedy algorithm, all letters at
-=======
-$S$.  Note that in spectrum resulting from the greedy algorithm, all letters at
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 layer $i$ occur strictly more frequently than the letters at layer $j$, $j >
 i$.  Also, in $S$, for all layers $i$ except for the last layer, $|S_i| = k$.
 Because $T$ and $S$ are not isomorphic, in $T$ there must be at least one layer
@@ -295,13 +210,8 @@ Unfortunately, this is the group of users who are likely the least adaptable to
 change, as almost all ``digital natives'' use predictive methods to input text
 messages\footnote{I have no statistics on this except for an informal survey of
 one of my classes.  In that class, every student who used SMS either had a
-<<<<<<< HEAD
 cellphone with a 26+ key alphabetic keyboard or used a predictive method.}. 
 To place the least burden of ``newness'' on these users while still
-=======
-cellphone with a 26+ key alphabetic keyboard or used a predictive method.}.  In
-order to place the least burden of ``newness'' on these users while still
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 decreasing the number of button presses, we now consider schemes where the only
 alteration of the keyboard is the rearrangement of the sequence of letters for
 a given key.
@@ -311,7 +221,6 @@ the optimal layout in this new scheme is to place the letters of a given key in
 sorted order, according to frequency.  Thus, the keyboard layout changes to
 $2\to[acb], 3\to[edf], 4\to[ihg], 5\to[lkj], 6\to[onm], 7\to[srpq], 8\to[tuv],
 9\to[wyxz]$ and requires 678,547,463 button presses to enter the whole corpus.
-<<<<<<< HEAD
 This layout represents a $28.43\%$ savings, and it has the added benefit that
 it does not change which key is mapped to which set of letters.  This makes it
 \newword{legacy preserving}, as creating a keyboard with this layout will not
@@ -324,26 +233,11 @@ suggestion.  It also has the added benefit of not angering any of the
 organizations behind the numbers 1-800-FLOWERS, 1-800-THRIFTY, and
 1-800-MARINES}.  After setting up this baseline for the easy problem, we turn
 our attention to optimizing cellphone keyboards for predictive input methods.
-=======
-This represents a $28.43\%$ savings, but has the added benefit that it does not
-change which key is mapped to which set of letters.  This makes it
-\newword{legacy preserving}, as creating a keyboard with this layout will not
-invalidate such advertising gems as 1-800-FLOWERS.  Thus, we can speed up users
-by $28.43\%$ (neglecting inter-letter pauses) and not undermine 50 years of
-advertising.  This layout represents perhaps the most plausible layout
-yet\footnote{The described layout is the only legacy preserving layout in this
-paper, and therefore should be considered the most practical suggestion.  It
-also has the added benefit of not angering any of the organizations behind the
-numbers 1-800-FLOWERS, 1-800-THRIFTY, and 1-800-MARINES}.  After setting up
-this baseline for the easy problem, we turn our attention to optimizing
-cellphone keyboards for predictive input methods.
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 
 \section{The T9 Input Method}
 
 In an effort to minimize the pain of cellphone keyboard typing, cellular
 telephone manufacturers have created the T9 input method, which attempts to
-<<<<<<< HEAD
 guess which letter (of the three or four possible) is intended when a user hits
 a single key.  Enhancements of this input method also provide speculative
 lookahead to report, at any given time, what word it is that the user is most
@@ -361,34 +255,11 @@ for a total of 10 button presses --- exactly the same number of button presses
 required using the default layout and the basic input method, and three more
 button presses than is required when using the basic input method with an
 optimized layout.
-=======
-guess which letter (of the 3 or 4 possible) is intended when a user hits a
-single key.  Enhancements of this input method also provide
-speculative lookahead to report, at any given time, what word it is
-that the user is most likely trying to enter and provide a completion.
-Unfortunately, because there are fewer keys on the cellphone keyboard than
-there are letters in the English alphabet, there are words which have different
-spellings but the same input sequence.  As an example, in the traditional
-mapping of keys to characters both `me' and `of' have the input sequence
-`63'.  Two words with the same input sequence force the user to press a third
-button to cycle through the possibilities in order from most likely (`of') to
-least likely (`me').  Even worse: `home', `good', `gone', `hood',
-`hoof', `hone', and `goof' all have the input sequence `4663'.  If
-the * key is used as the ``next match'' button, then the user will actually
-have to type in `4663******' to type in the word `goof', for a total of 10
-button presses --- exactly the same number of button presses required using the
-default layout and the basic input method, and three more button presses than
-is required when using the basic input method with an optimized layout.
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 
 When two words have the same input sequence (neglecting the *'s at the end)
 then these words are \newword{t9onyms}.  When two or more words are t9onyms,
 then the less-popular words require extra key presses, raising the expected
-<<<<<<< HEAD
 number of key presses to type in our corpus.  To type a given word, one
-=======
-number of key presses to type in our corpus.  In order to type a given word, one
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 must press one button for every character in the word, followed by pressing
 the * key as many times as there are t9onyms which are more likely than the
 desired word.  Because typing on a cellphone keyboard is already an unpleasant
@@ -419,15 +290,9 @@ $$\sum_{w\in W} (\mathrm{len}(w)+\mathrm{order}(w,P,W,f)) * f(w) \le t$$
 where len$(w)$ is the length of the sequence $w$ and order$(w,P,W,f)$ is the size of $\left\{s\in W | P(s) = P(w) \land f(s) \le f(w) \land s < w \right\}$, which is the set of sequences which map to the same sequence of partitions, but are not more popular, and are lexicographically smaller than $w$.
 \end{prob}
 
-<<<<<<< HEAD
 This problem is in \NP, as any assignment may be verified to require
 fewer than $t$ button pushes in time proportional to the total length of all
 the words in $W$.  To prove completeness, however, we first prove the
-=======
-Note that this problem is in \NP, as any assignment may be verified to require
-fewer than $t$ button pushes in time proportional to the total length of all
-the words in $W$.  In order to prove completeness, however, we first prove the
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 \NP-completeness of an intermediate problem: {\sc UniquePathColoring}.
 
 \begin{prob}[{\sc UniquePathColoring}]~\\
@@ -458,11 +323,7 @@ $\chi$ of the vertices of the graph such that $\forall (u,v)\in E$, $\chi(u)
 instance of {\sc UniquePathColoring} in the following manner:
 
 Given $G=(V,E)$ and $k$ from {\sc GraphColoring}, we create $$G'=\left(V \cup
-<<<<<<< HEAD
 \{0,1\}, E \cup \{(0,1), (1,0), (0,0), (1,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$ We then
-=======
-\{0,1\}, E \cup \{(0,1)\} \cup \{ (v, 0)~ \forall v \in V\} \right)$$ We then
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 uniquely number each edge in $E$ with the numbers $1 \ldots |E|$.  For each
 edge $e = (u,v)$ numbered $i$, we create the path set 
 \begin{eqnarray*}
@@ -484,11 +345,7 @@ two vertices different colors, $\chi([0,1]) \neq \chi([1,0])$.  If path $x$ and
 path $y$ are not from the same $p_i$, then they have a different sequence of
 zeroes and ones.  Therefore, because $0$ and $1$ are assigned different colors,
 the only possible path that a given path in some $p_i$ might be confused with
-<<<<<<< HEAD
 is the other path in that $p_i$.  But each $p_i$ corresponds to an edge in
-=======
-is the other path in that $p_i$.  But each $p_i$ corresponds to a an edge in
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 $E$, and we know for all edges in $(u,v) \in E$ that $\chi(u) \neq \chi(v)$.
 Therefore, both paths within a given $p_i$ also have a distinct color sequence.
 Therefore, given a $k$-coloring of $G$, we can generate a $k$-unique-path
@@ -508,11 +365,7 @@ $P$, we have a $k$-coloring of $G=(V,E)$.
 \qed 
 \end{proof}
 
-<<<<<<< HEAD
 This proof implies not just that {\sc UniquePathColoring} is \NP-complete, but that it is \NP-complete even when we restrict ourself to just 3 colors, because the number of colors in the {\sc UniquePathColoring} is exactly equal to the number of colors in the instance of {\sc GraphColoring}, and 3-coloring a graph is an \NP-complete problem\cite{3color}.
-=======
-Note that this proof implies not just that {\sc UniquePathColoring} is \NP-complete, but that it is \NP-complete eve when we restrict ourself to just 3 colors, because the number of colors in the {\sc UniquePathColoring} is exactly equal to the number of colors in the instance of {\sc GraphColoring}, and 3-coloring a graph is an \NP-complete problem\cite{3color}.
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 
 Now that we have proven {\sc UniquePathColoring} to be \NP-complete, we
 immediately use it in a reduction.  
@@ -524,11 +377,7 @@ As we noted on page~\pageref{minstrokesdecision}, {\sc MinimumT9Keystrokes} is
 in \NP.  To prove completeness, we reduce from {\sc UniquePathColoring}.  An
 instance of {\sc UniquePathColoring} consists of a graph $G=(V,E)$, a set of
 paths $P$, and a parameter $k$.  We then ask the question of whether there is a
-<<<<<<< HEAD
 vertex coloring of $G$ using $k$ colors where each path in $P$ ends up with
-=======
-vertex coloring of $G$ using $k$ colors such that each path in $P$ ends up with
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 a unique sequence of colors.
 
 We transform an instance of {\sc UniquePathColoring} into an instance of {\sc
@@ -567,7 +416,6 @@ $G$ using $k$ colors.  Thus, a partition of $V$ into $k$ partitions which allows
 \qed
 \end{proof}
 
-<<<<<<< HEAD
 This proof of \NP-completeness is of a relatively strong form: just like {\sc UniquePathColoring}, our problem remains \NP-complete even if we restrict ourselves to $k=3$ (only 3 buttons on the cell phone keyboard).
 
 Because our problem is \NP-complete, we will not try to find a general solution.  In our specific instance, with 26 letters and an eight key keyboard (1 and 0 are reserved for other uses),  we must choose the best layout from among $$\binom{26}{8} \binom{18}{8} \binom{10}{8} = 3,076,291,325,250$$ different possibilities.  Given that, currently, it takes around a tenth of a second to count the button presses required to enter the BNC, an exhaustive search will take 307,629,132,525 seconds, or 9.75 millennia.  Therefore, we have two remaining avenues of attack: find the best answer possible using stochastic methods, or solving a simpler problem.  Using stochastic methods (a simple genetic algorithm), the best layout we found was 
@@ -584,22 +432,6 @@ alphabetical order as a sequence, and our only choices are about how to divide
 the subsequence into key assignments.  The default layout can be described as
 the partition
 $abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  To
-=======
-Again we note that this proof of \NP-completeness is of a relatively strong form: just like {\sc UniquePathColoring}, our problem remains \NP-complete even if we restrict ourselves to $k=3$ (only 3 buttons on the cell phone keyboard).
-
-Because our problem is \NP-complete, we will not try to find a general solution.  In our specific instance, with 26 letters and an eight key keyboard (1 and 0 are reserved for other uses),  we must choose the best layout from among $$\binom{26}{8} \binom{18}{8} \binom{10}{8} = 3,076,291,325,250$$ different possibilities.  Given that, currently, it takes around a tenth of a second to count the number of button presses required to enter the BNC, an exhaustive search will take 307,629,132,525 seconds, or 9.75 millennia.  Therefore, we have two remaining avenues of attack: find the best answer possible using stochastic methods, or solving a simpler problem.  Using stochastic methods (a simple genetic algorithm), the best layout we found was 
-$$\{\{eb\}, \{lcd\}, \{sh\}, \{zmx\}, \{fayg\}, \{toj\}, \{unpv\}, \{irkwq\}\}$$
-which required 441,612,049 button presses to enter the entire corpus.   As compared to the requirements of the default layout (443,374,079), this represents a savings of less than 1\%, and is thus not a very attractive alternative to existing layouts.  This low amount of improvement, while not good news for our proposed reordering, is excellent news for all current cell phone users: cell phone keyboard layout seem relatively efficient for T9 text entry!
-
-\subsection{Alphabetic Order}
-
-Our arbitrary remappings of the keyboard may be quickly deemed
-unusable, simply because it is almost impossible to tell where a given key is located without memorizing the entire new layout.  Therefore, we define a refinement of the keyboard layout problem, in which the
-characters are required to be kept in alphabetical order as a sequence, and our
-only choices are about how to divide the subsequence into key assignments.  The
-default layout can be described as the partition
-$abc|def|ghi|jkl|mno|pqrs|tuv|wxyz$.  Is this partition optimal?  In order to
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 decide this, we define the problem {\sc MinimumKeystrokePartition} as:
 \begin{prob}[{\sc MinimumKeystrokePartition}]~\\
 \label{thm:minpartition}
@@ -614,16 +446,11 @@ which required 442,717,436 button presses, yet again for a savings of less than 
 
 \section{Conclusion}
 
-<<<<<<< HEAD
 We have developed three problems based on the idea of making cell phone keyboard more efficient for typing text messages.  Different text entry methods yield problems with very different levels of solvability.  If we restrict ourselves to the basic text entry method, then a greedy algorithm will work for finding the optimal layout.  Even better, the greedy algorithm works whether we want to restrict ourselves to rearranging the order of letters on a single key, or to rearranging all letters on all keys.  On the other hand, if we try to optimize against the more complex T9 input method, then we find that the problem is \NP-complete.  After proving completeness, we gave numerical results which indicate that it will be difficult (or perhaps impossible) to significantly improve on the default layout of letters.  This stands in sharp contrast to the simpler input method, where we were able to improve by more than 27\% just by reordering the letters on the keys, but never moving a letter from one key to another.
-=======
-In this paper, we have developed three problems based on the idea of making cell phone keyboard more efficient for typing text messages.  Different text entry methods yield problems with very different levels of solvability.  If we restrict ourselves to the basic text entry method, then a greedy algorithm will work for finding the optimal layout.  As a matter of fact, the greedy algorithm works whether we want to restrict ourselves to rearranging the order of letters on a single key, or to rearranging all letters on all keys.  On the other hand, if we try to optimize against the more complex T9 input method, then we find that the problem is \NP-complete.  After proving completeness, we gave numerical results which indicate that it will be difficult (or perhaps impossible) to significantly improve on the default layout of letters.  This stands in sharp contrast to the simpler input method, which we were able to improve by more than 27\% just by reordering the letters on the keys, but never moving a letter from one key to another.
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 
 We have also discovered a new \NP-complete problem {\sc UniquePathColoring}, which may be of use in other contexts.  In particular, it is rare in the literature to find an \NP-complete problem that contains both partitions and sequences, which is why we had to invent a new one here.  The hope, as always, is that this problem will prove useful to others.
 
 We left as future work any exploration of the issue of needing to pause between
-<<<<<<< HEAD
 letters in the basic typing method, and, while there do exist even more
 sophisticated input methods\cite{hcimethods}, we have left them unmentioned and unexamined.  Optimizing a keyboard for the basic text input method was relatively straightforward, but, for the T9 input method, optimally using a cell phone keyboard is \NP\ hard.
 
@@ -641,11 +468,4 @@ sophisticated input methods\cite{hcimethods}, we have left them unmentioned and 
 {\tiny
 \verbatiminput{notrcount.cpp}
 }
-=======
-letters in the basic typing method, and while there do exist even more
-sophisticated input methods, we have left them unmentioned and unexamined.  Optimizing a keyboard for typing in the basic text method was relatively straightforward, but, in the T9 input method, optimally using a cell phone keyboard is \NP hard.
-
-\bibliographystyle{abbrv}
-\bibliography{bibliography}
->>>>>>> 15dbb173900e9cfe5f1ec55fe94a39ab55a9996d
 \end{document}
